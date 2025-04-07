@@ -2,7 +2,7 @@
 
 Penndora is a web application designed to provide a platform for creative expression and community engagement. Built with Angular, Node.js, and Firebase, it allows users to register, create personalized profiles, post multimedia content, and engage in meaningful discussions through comments — all within a smooth Single Page Application (SPA) experience.
 
-🔗 **Live Demo**: [https://penndora-6b0ec.web.app/](https://penndora-6b0ec.web.app/home)
+🔗 **Live Demo**: [https://penndora-6b0ec.web.app/](https://penndora-6b0ec.web.app/)
 
 ---
 
