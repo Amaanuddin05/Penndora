@@ -1,0 +1,48 @@
+<div class="row mt-5">
+  <div class="offset-sm-1 col-sm-10">
+    <div class="card bg-light">
+      <div class="card-body">
+        <div class="card-title text-center">
+          <h3>Profile</h3>
+        </div>
+        <hr/>
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm-3 text-center">
+              <img [src]="user.photoURL" height="256" width="256" class="img-fluid rounded-circle" alt="User Profile Image">
+            </div>
+
+            <div class="col-sm-9">
+              <h1>{{ user.firstName + ' ' + user.lastName }}</h1>
+
+              <h4>{{ user.email }}</h4>
+
+              <h5>{{ user.bio }}</h5>
+
+              <p>{{ user.interests }}</p>
+
+              <div>
+                <span *ngFor="let hobby of user.hobbies" class="badge bg-primary rounded-pill m-1">{{ hobby }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="offset-sm-1 col-sm-10">
+    <div class="card bg-light">
+      <div class="card-body">
+        <div class="card-title">
+          <h3>Posts by {{ user.firstName }} ({{ posts.length }})</h3>
+        </div>
+        <div class="card-text">
+          <app-post *ngFor="let post of posts" [post]="post"></app-post>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

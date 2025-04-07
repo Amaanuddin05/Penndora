@@ -1,0 +1,21 @@
+<div class="row mt-5">
+  <div class="col">
+
+    <div class="mb-3">
+      <label for="title" class="form-label">Post Title</label>
+      <input type="text" class="form-control" id="title" placeholder="Post Title" name="title" [(ngModel)]="title">
+    </div>
+    <label for="title" class="form-label">Post Content</label>
+    <div class="NgxEditor__Wrapper">
+      
+      <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+      <ngx-editor [editor]="editor" [(ngModel)]="html"  [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
+    </div>
+    
+
+    <div class="mt-3 d-flex justify-content-end">
+      <button (click)="createPost()" class="btn btn-warning rounded-pill">Submit</button>
+    </div>
+
+  </div>
+</div>

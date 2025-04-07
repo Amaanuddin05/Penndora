@@ -1,0 +1,47 @@
+.background-left {
+  background-color: #2e7cf6;
+  background-image: url('/assets/Sign-Up-BG-Image.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left bottom;
+}
+
+.background-right {
+  background-color: #2e7cf6;
+  padding: 3%; /* Adjust padding for smaller screens */
+}
+
+.card {
+  background-color: transparent;
+  color: #fff;
+}
+
+.text-muted {
+  color: #fff !important;
+}
+
+.btn[type=submit] {
+  border-radius: 50px;
+}
+
+h1 {
+  color: #fff;
+}
+
+input {
+  margin-bottom: 10px; /* Adjust margin for better spacing */
+}
+
+@media (max-width: 576px) {
+  .background-left {
+    display: none; /* Hide background image on screens smaller than sm */
+  }
+
+  .background-right {
+    padding: 10%;
+  }
+
+  .card {
+    margin-top: 20px; /* Adjust card margin on smaller screens */
+  }
+}

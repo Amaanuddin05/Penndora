@@ -1,0 +1,70 @@
+<div class="row mt-5">
+  <div class="offset-sm-1 col-sm-10">
+    <div class="card bg-light">
+      <div class="card-body">
+        <div class="card-title">
+          <h1>Profile</h1>
+        </div>
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm-4">
+              <img [src]="user.photoURL" width="256" height="256" class="img-fluid rounded-circle" alt="User Photo">
+            </div>
+            <div class="col-sm-8">
+              <div class="mb-3 row">
+                <label for="displayName" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="displayName" placeholder="First name" [(ngModel)]="user.displayName">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                  <input type="email" readonly class="form-control-plaintext" id="email" [(ngModel)]="user.email">
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="bio" class="col-sm-2 col-form-label">Bio</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="bio" rows="6" placeholder="Tell us something about yourself..." [(ngModel)]="user.bio"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="offset-sm-1 col-sm-10">
+    <div class="card bg-light">
+      <div class="card-body">
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label for="interests" class="form-label">Your Interests</label>
+                <textarea class="form-control" id="interests" rows="6" placeholder="I like to read sci-fi novels..." [(ngModel)]="user.interests"></textarea>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label for="hobbies" class="form-label">Your Hobbies <small><i>(Comma Separate Each Hobby)</i></small></label>
+                <textarea class="form-control" id="hobbies" rows="6" placeholder="Reading, Travelling, Gaming" [(ngModel)]="user.hobbies"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-warning" (click)="update()">Update</button>
+        <div class="alert alert-success mt-3" role="alert" *ngIf="message">
+          {{ message }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

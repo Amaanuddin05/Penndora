@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">
+    <img src="assets/Penndora-logo1.png" height="40" width="136">
+  </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto">
+
+      <li class="nav-item" routerLinkActive="active" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" *ngIf="!loggedIn">
+        <a class="nav-link" routerLink="/home">Home</a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" *ngIf="loggedIn">
+        <a class="nav-link" routerLink="/myblogs">Home</a>
+      </li>
+
+    </ul>
+
+    <ul class="navbar-nav ms-auto">
+      
+      <li class="nav-item right" *ngIf="!loggedIn">
+        <a class="nav-link d-lg-none" routerLink="/login">Login</a> <!-- Link for collapsed navbar -->
+        <button class="btn btn-outline-light px-5 d-none d-lg-block" routerLink="/login">Login</button> <!-- Button for expanded navbar -->
+      </li>
+
+      <li class="nav-item right" *ngIf="loggedIn">
+        <a class="nav-link" [routerLink]="'/profile/' + user.uid">My Profile</a>
+      </li>
+      <li class="nav-item right" *ngIf="loggedIn">
+        <a class="nav-link" routerLink="/" (click)="logout()">Log out</a>
+      </li>
+
+    </ul>
+  </div>
+</nav>

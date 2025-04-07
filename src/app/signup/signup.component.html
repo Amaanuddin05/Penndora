@@ -1,0 +1,68 @@
+<div class="row background">
+  <div class="col-sm-6 background-left p-5 pb-5 d-none d-sm-block">
+    <!-- Display background image only on screens larger than sm -->
+    <h1>Don't just think! Blog It!</h1>
+  </div>
+
+  <div class="col-sm-6 background-right p-3">
+    <!-- Adjust padding for smaller screens -->
+    <div class="card text-blank border-0">
+      <div class="card-body">
+        <div class="card-title text-center">
+          <h5>Sign up for free</h5>
+        </div>
+
+        <div class="card-text">
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="First Name" formControlName="firstName">
+              <div class="alert alert-danger" *ngIf="!myForm.controls['firstName'].valid && myForm.controls['firstName'].touched">
+                First name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName">
+              <div class="alert alert-danger" *ngIf="!myForm.controls['lastName'].valid && myForm.controls['lastName'].touched">
+                Last name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <input type="email" placeholder="Enter your email" class="form-control" formControlName="email">
+              <small class="form-text text-muted">
+                We'll never share your email with anyone else
+              </small>
+              <div class="alert alert-danger" *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">
+                A valid email is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <input type="password" class="form-control" placeholder="Password" formControlName="password">
+              <div class="alert alert-danger" *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">
+                Password should be at least 8 characters long.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <input type="password" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword">
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-warning w-100" [disabled]="!myForm.valid">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-success mt-3" *ngIf="message.length > 0">
+      {{ message }}
+    </div>
+
+    <div class="alert alert-danger" *ngIf="userError">
+      {{ userError.message }}
+    </div>
+  </div>
+</div>

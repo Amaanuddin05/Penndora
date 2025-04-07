@@ -1,0 +1,29 @@
+
+  /* Optional: Define your .vertical-divider class */
+  .vertical-divider {
+    border-right: 1px solid #ddd;
+  }
+
+  /* Adjustments for responsiveness */
+  @media (max-width: 992px) {
+    .align-middle.m-5 {
+      display: none; /* Hide the image on smaller screens */
+    }
+    
+    .pt-5 {
+      padding-top: 3rem !important; /* Adjust padding for top sections */
+    }
+
+    .text-md-end {
+      text-align: center; /* Center text for image column on smaller screens */
+    }
+
+    .col-md-4.text-start {
+      border-right: none; /* Remove border on smaller screens */
+      padding-top: 3rem; /* Adjust padding for left contact column */
+    }
+
+    .col-md-8.text-start {
+      padding-top: 3rem; /* Adjust padding for right contact column */
+    }
+  }
