@@ -21,7 +21,8 @@ export class PostComponent implements OnInit {
   constructor(private firestore: AngularFirestore, private auth: AngularFireAuth) { }
 
   async ngOnInit() {
-    this.postData = this.post; // directly assign the post object to postData
+    this.postData = { ...this.post }; // Make a copy to avoid reference issues
+    this.postData.id = this.post.id || this.postData.id; // ✅ Ensure postData.id exists
     console.log(this.postData);
     this.user = await this.auth.currentUser;
   }

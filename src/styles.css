@@ -7,3 +7,13 @@ body{
   height: 100%;
   font-family: 'Raleway',sans-serif;
 }
+
+.post_container img {
+  display: block;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+  margin: 10px auto;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}

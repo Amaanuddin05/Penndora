@@ -6,7 +6,8 @@
 
     <div class="card-text" style="display: flex;">
       <span [innerHTML]="postData.content.substring(0,50)"></span> ...
-      <a class="card-link" routerLink="/view/{{ post.id }}">Read More</a>
+      <a class="card-link" [routerLink]="'/view/' + postData.id">Read More</a>
+
     </div>
   </div>
 

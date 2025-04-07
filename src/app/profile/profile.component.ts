@@ -25,25 +25,27 @@ export class ProfileComponent implements OnInit {
   getProfile(id: string) {
     firebase.firestore().collection("users").doc(id).get().then((documentSnapshot) => {
       if (documentSnapshot.exists) {
-        this.user = documentSnapshot.data(); // Retrieve user data from Firestore
-        this.user.displayName = this.user.firstName + " " + this.user.lastName; // Construct displayName
-        this.user.id = documentSnapshot.id; // Assign document id to user object
+        this.user = documentSnapshot.data();
+        this.user.displayName = this.user.firstName + " " + this.user.lastName;
+        this.user.id = documentSnapshot.id;
         this.user.hobbies = this.user.hobbies.split(',');
-        console.log(this.user); // Log user data
+        console.log(this.user);
       } else {
         console.log('User not found');
       }
     }).catch((error) => {
-      console.log(error); // Log any errors
+      console.log(error);
     });
   }
 
   getUsersPosts(id: string) {
     firebase.firestore().collection("posts")
       .where("owner", "==", id).get().then((querySnapshot) => {
-        this.posts = querySnapshot.docs.map(doc => doc.data()); // Retrieve posts data from Firestore
+        this.posts = querySnapshot.docs.map(doc => {
+          return { id: doc.id, ...doc.data() }; // ✅ include id with each post
+        });
       }).catch((error) => {
-        console.log(error); // Log any errors
+        console.log(error);
       });
   }
 

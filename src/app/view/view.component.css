@@ -1,11 +1,25 @@
-.post-content{
+
+.post-content {
   border: 1px solid grey;
-  padding: 5px 5px;
+  padding: 10px;
   border-radius: 5px;
-  margin: 10px;
+  margin: 20px 0;
+  background-color: #fff;
 }
 
 .post_container {
-  overflow: hidden;
   width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.post_container img {
+  max-width: 100% !important;
+  max-height: 500px !important;
+  height: auto !important;
+  display: block;
+  object-fit: contain;
+  margin: 10px auto;
 }
