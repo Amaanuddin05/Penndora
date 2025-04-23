@@ -20,6 +20,7 @@ interface Post {
 export class ViewComponent implements OnInit {
   post: Post | undefined;
   postId: string = "";
+  isLoading: boolean = true;
   
   // Author information
   author: any;
@@ -35,6 +36,8 @@ export class ViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
+    
     this.activateRoute.paramMap.pipe(
       switchMap(params => {
         const postId = params.get("postId");
@@ -58,11 +61,16 @@ export class ViewComponent implements OnInit {
           // Fetch author information if owner is available
           if (post.owner) {
             this.fetchAuthorInfo(post.owner);
+          } else {
+            this.isLoading = false;
           }
+        } else {
+          this.isLoading = false;
         }
       });
     }, (error: any) => {
       console.error("Error getting document:", error);
+      this.isLoading = false;
     });
   }
   
@@ -88,6 +96,11 @@ export class ViewComponent implements OnInit {
           this.authorPhoto = this.sanitizer.bypassSecurityTrustUrl(this.author.photoURL);
         }
       }
+      
+      this.isLoading = false;
+    }, error => {
+      console.error("Error fetching author info:", error);
+      this.isLoading = false;
     });
   }
   

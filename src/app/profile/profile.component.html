@@ -1,44 +1,69 @@
-<div class="row mt-5">
-  <div class="offset-sm-1 col-sm-10">
-    <div class="card bg-light">
-      <div class="card-body">
+<div class="container">
+  <!-- Back button -->
+  <div class="back-button mb-3">
+    <a routerLink="/myblogs" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Feed
+    </a>
+  </div>
+  
+  <!-- Loading spinner -->
+  <div class="text-center my-5" *ngIf="isLoading">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="loading-text">Loading profile...</p>
+  </div>
+  
+  <div *ngIf="!isLoading">
+    <!-- Profile Card -->
+    <div class="card">
+      <div class="card-body position-relative">
+        <!-- Edit Profile Button -->
+        <a routerLink="/edit-profile/{{user.uid}}" class="edit-profile-btn">
+          <i class="fas fa-pen"></i> <span class="btn-text">Edit Profile</span>
+        </a>
+        
         <div class="card-title text-center">
           <h3>Profile</h3>
         </div>
         <hr/>
-        <div class="card-text">
-          <div class="row">
-            <div class="col-sm-3 text-center">
-              <img [src]="user.photoURL" height="256" width="256" class="img-fluid rounded-circle" alt="User Profile Image">
+        
+        <div class="row mt-4">
+          <!-- Profile Image -->
+          <div class="col-md-3">
+            <div class="profile-img-container">
+              <img [src]="user.photoURL" class="profile-img" alt="User Profile Image">
             </div>
-
-            <div class="col-sm-9">
-              <h1>{{ user.firstName + ' ' + user.lastName }}</h1>
-
-              <h4>{{ user.email }}</h4>
-
-              <h5>{{ user.bio }}</h5>
-
-              <p>{{ user.interests }}</p>
-
-              <div>
-                <span *ngFor="let hobby of user.hobbies" class="badge bg-primary rounded-pill m-1">{{ hobby }}</span>
-              </div>
+          </div>
+          
+          <!-- User Information -->
+          <div class="col-md-9">
+            <h1 class="user-name">{{ user.firstName + ' ' + user.lastName }}</h1>
+            <h4 class="user-email">{{ user.email }}</h4>
+            
+            <div class="user-bio" *ngIf="user.bio">{{ user.bio }}</div>
+            
+            <div class="user-interests" *ngIf="user.interests">{{ user.interests }}</div>
+            
+            <div class="mt-3" *ngIf="user.hobbies && user.hobbies.length > 0">
+              <span *ngFor="let hobby of user.hobbies" class="hobby-tag">{{ hobby }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="row mt-5">
-  <div class="offset-sm-1 col-sm-10">
-    <div class="card bg-light">
+    
+    <!-- Posts Card -->
+    <div class="card">
       <div class="card-body">
         <div class="card-title">
           <h3>Posts by {{ user.firstName }} ({{ posts.length }})</h3>
         </div>
+        
+        <div *ngIf="posts.length === 0" class="text-center py-4">
+          <p class="text-muted">No posts yet</p>
+        </div>
+        
         <div class="card-text">
           <app-post *ngFor="let post of posts" [post]="post"></app-post>
         </div>

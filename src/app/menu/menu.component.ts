@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import * as firebase from 'firebase/app';
-import { Auth,getAuth, onAuthStateChanged } from 'firebase/auth'
+import { Auth, getAuth, onAuthStateChanged } from 'firebase/auth'
 import 'firebase/auth';
 
 @Component({
@@ -14,7 +14,6 @@ export class MenuComponent {
   auth = getAuth();
 
   constructor() {
-
     this.user = this.auth.currentUser;
     if(this.user) {
       this.loggedIn = true;
@@ -29,9 +28,7 @@ export class MenuComponent {
       } else {
         this.loggedIn = false;
       }
-
     })
-
   }
 
   ngOnInit() {
@@ -40,5 +37,10 @@ export class MenuComponent {
   logout(){
     this.auth.signOut();
   }
-
+  
+  confirmLogout() {
+    if (confirm('Are you sure you want to log out?')) {
+      this.logout();
+    }
+  }
 }

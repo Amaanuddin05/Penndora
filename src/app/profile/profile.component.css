@@ -1,3 +1,198 @@
 .img-circle {
   border-radius: 128px;
 }
+
+/* Profile Container */
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.card-title h3 {
+  color: #1d9bf0;
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Profile Image */
+.profile-img-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.profile-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+/* User Info */
+.user-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f1419;
+  margin-bottom: 5px;
+}
+
+.user-email {
+  font-size: 16px;
+  color: #536471;
+  margin-bottom: 15px;
+}
+
+.user-bio {
+  font-size: 18px;
+  color: #0f1419;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.user-interests {
+  font-size: 16px;
+  color: #536471;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+/* Hobby Tags */
+.hobby-tag {
+  background-color: #1d9bf0;
+  color: white;
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 5px;
+  display: inline-block;
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #1d9bf0;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.edit-profile-btn:hover {
+  background-color: #1a8cd8;
+  box-shadow: 0 2px 8px rgba(29, 155, 240, 0.3);
+  transform: translateY(-2px);
+  color: white;
+  text-decoration: none;
+}
+
+.edit-profile-btn i {
+  margin-right: 6px;
+}
+
+/* Back Button */
+.back-button {
+  margin-top: 15px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: #536471;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.back-link:hover {
+  color: #1d9bf0;
+  background-color: rgba(29, 155, 240, 0.1);
+  text-decoration: none;
+}
+
+.back-link i {
+  margin-right: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .profile-img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+  }
+  
+  .user-name {
+    font-size: 22px;
+    text-align: center;
+  }
+  
+  .user-email {
+    text-align: center;
+  }
+  
+  .edit-profile-btn {
+    top: 15px;
+    right: 15px;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .edit-profile-btn i {
+    margin-right: 0;
+  }
+  
+  .edit-profile-btn .btn-text {
+    display: none;
+  }
+}
+
+/* Loading State */
+.spinner-border {
+  color: #1d9bf0;
+  width: 3rem;
+  height: 3rem;
+}
+
+.loading-text {
+  color: #536471;
+  font-size: 14px;
+  margin-top: 10px;
+}

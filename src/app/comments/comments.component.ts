@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Firestore, collection, addDoc, query, where, orderBy, getDocs, serverTimestamp } from '@angular/fire/firestore';
 import { docData } from 'rxfire/firestore';
+import { getAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-comments',
@@ -13,16 +14,21 @@ export class CommentsComponent implements OnInit {
   comment: string = "";
   comments: any[] = [];
   loggedIn: boolean = false;
+  user: any = {};
+  private auth = getAuth();
+  isLoading: boolean = true;
 
   @Input() postId: string = '';
 
-  constructor(private auth: AngularFireAuth, private firestore: Firestore) {
-    this.auth.onAuthStateChanged((user) => {
+  constructor(private authFire: AngularFireAuth, private firestore: Firestore) {
+    this.authFire.onAuthStateChanged((user) => {
       this.loggedIn = !!user;
     });
   }
 
   ngOnInit() {
+    this.isLoading = true;
+    
     if (this.postId) {
       this.getComments();
     } else {
@@ -36,7 +42,7 @@ export class CommentsComponent implements OnInit {
       return;
     }
 
-    const user = await this.auth.currentUser;
+    const user = await this.authFire.currentUser;
 
     if (user) {
       const commentData = {
@@ -60,20 +66,38 @@ export class CommentsComponent implements OnInit {
   }
 
   async getComments() {
+    this.isLoading = true;
+    
     if (!this.postId) {
       console.error("postId is not defined!");
+      this.isLoading = false;
       return;
     }
 
-    this.comments = [];
-
     try {
-      const commentsRef = collection(this.firestore, "comments");
-      const q = query(commentsRef, where("post", "==", this.postId), orderBy("created", "desc"));
-      const snapshot = await getDocs(q);
-      this.comments = snapshot.docs.map(doc => doc.data());
+      const commentRef = collection(this.firestore, 'comments');
+      const commentQuery = query(
+        commentRef,
+        where('post', '==', this.postId),
+        orderBy('created', 'desc')
+      );
+      
+      const querySnapshot = await getDocs(commentQuery);
+      
+      this.comments = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        this.comments.push({
+          id: doc.id,
+          ...data,
+          authorName: data['ownerName'],
+          timestamp: data['created']
+        });
+      });
     } catch (error) {
       console.error("Error getting comments:", error);
+    } finally {
+      this.isLoading = false;
     }
   }
 

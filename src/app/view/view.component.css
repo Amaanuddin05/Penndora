@@ -160,3 +160,26 @@
     border-radius: 12px;
   }
 }
+
+/* Loading State */
+.spinner-border {
+  color: #1d9bf0;
+  width: 3rem;
+  height: 3rem;
+}
+
+.loading-text {
+  color: #536471;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Alert when post not found */
+.alert-warning {
+  background-color: #fff8e6;
+  color: #9e6a03;
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}

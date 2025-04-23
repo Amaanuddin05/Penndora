@@ -1,5 +1,13 @@
 <div class="comments-container">
-  <h3 class="comments-header">Comments</h3>
+  <h3 class="section-title">Comments</h3>
+  
+  <!-- Loading spinner for comments -->
+  <div class="text-center my-3" *ngIf="isLoading">
+    <div class="spinner-border spinner-border-sm text-primary" role="status">
+      <span class="visually-hidden">Loading comments...</span>
+    </div>
+    <p class="text-muted small mt-2">Loading comments...</p>
+  </div>
   
   <!-- Comment form for logged-in users -->
   <div class="comment-form" *ngIf="loggedIn">
@@ -11,32 +19,25 @@
     </div>
   </div>
   
-  <!-- Login prompt for non-logged-in users -->
-  <div class="login-prompt" *ngIf="!loggedIn">
-    <p>Please login to post a comment</p>
-    <a routerLink="/login" class="login-link">Login</a>
-  </div>
-  
-  <!-- Comments counter -->
-  <div class="comments-counter" *ngIf="comments.length">
-    {{ comments.length }} {{ comments.length === 1 ? 'Comment' : 'Comments' }}
+  <!-- Login message for non-logged-in users -->
+  <div class="login-message" *ngIf="!loggedIn">
+    <p>Please <a routerLink="/login">log in</a> to post a comment.</p>
   </div>
   
   <!-- Comments list -->
-  <div class="comments-list">
-    <div class="comment-item" *ngFor="let comment of comments">
-      <div class="comment-header">
-        <div class="commenter">{{ comment.ownerName }}</div>
-        <div class="comment-date">{{ formatCommentDate(comment.created) }}</div>
-      </div>
-      <div class="comment-text">
-        {{ comment.text }}
-      </div>
+  <div class="comments-list" *ngIf="!isLoading">
+    <div *ngIf="comments.length === 0" class="no-comments">
+      <p>No comments yet. Be the first to comment!</p>
     </div>
     
-    <!-- No comments message -->
-    <div class="no-comments" *ngIf="!comments.length">
-      No comments yet. Be the first to comment!
+    <div class="comment" *ngFor="let comment of comments">
+      <div class="comment-header">
+        <div class="comment-author">{{ comment.ownerName || comment.authorName }}</div>
+        <div class="comment-date">{{ formatCommentDate(comment.created || comment.timestamp) }}</div>
+      </div>
+      <div class="comment-body">
+        {{ comment.text }}
+      </div>
     </div>
   </div>
 </div>

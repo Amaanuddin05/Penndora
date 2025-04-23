@@ -145,11 +145,10 @@
 
 /* No comments message */
 .no-comments {
-  font-size: 15px;
+  padding: 20px 0;
   color: #536471;
-  padding: 16px 0;
   text-align: center;
-  font-style: italic;
+  font-size: 15px;
 }
 
 /* Responsive adjustments */
@@ -166,4 +165,67 @@
   .comment-text {
     font-size: 14px;
   }
+}
+
+/* Loading State */
+.spinner-border {
+  color: #1d9bf0;
+}
+
+.text-muted.small {
+  color: #536471;
+  font-size: 14px;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f1419;
+  margin-bottom: 20px;
+}
+
+/* Login message */
+.login-message {
+  background-color: #f7f9fa;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.login-message a {
+  color: #1d9bf0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-message a:hover {
+  text-decoration: underline;
+}
+
+/* Comment */
+.comment {
+  padding: 15px 0;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+.comment-author {
+  font-weight: 700;
+  color: #0f1419;
+}
+
+.comment-date {
+  color: #536471;
+  font-size: 13px;
+}
+
+.comment-body {
+  color: #0f1419;
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
