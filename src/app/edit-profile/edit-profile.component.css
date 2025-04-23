@@ -1,0 +1,140 @@
+/* Edit Profile Container */
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.card-title h1 {
+  color: #1d9bf0;
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+/* Profile Image */
+.profile-img-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.profile-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+/* Form Controls */
+.form-control {
+  border-radius: 8px;
+  padding: 12px 15px;
+  border: 1px solid #e1e8ed;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #1d9bf0;
+  box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.25);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #536471;
+  margin-bottom: 8px;
+}
+
+/* Button Styling */
+.update-btn {
+  background-color: #1d9bf0;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.update-btn:hover {
+  background-color: #1a8cd8;
+  box-shadow: 0 2px 8px rgba(29, 155, 240, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Success Message */
+.alert-success {
+  background-color: #e3f5eb;
+  color: #0f7b45;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .profile-img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .card-title h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
+/* Back Button */
+.back-button {
+  margin-top: 15px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: #536471;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.back-link:hover {
+  color: #1d9bf0;
+  background-color: rgba(29, 155, 240, 0.1);
+  text-decoration: none;
+}
+
+.back-link i {
+  margin-right: 8px;
+}

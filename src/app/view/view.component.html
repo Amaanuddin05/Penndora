@@ -1,14 +1,36 @@
-<div class="row mt-5">
-  <div class="col-sm-8 offset-sm-2">
-    <div class="post-content">
-      <h1>{{ post?.title }}</h1>
-      <div class="post_container" [innerHTML]="post?.content"></div>
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="mb-3">
+        <a routerLink="/myblogs" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to feed
+        </a>
+      </div>
+      
+      <!-- Post card with Twitter-style layout -->
+      <div class="post-card">
+        <!-- Post header with author info -->
+        <div class="post-header" *ngIf="author">
+          <div class="author-photo">
+            <img [src]="authorPhoto" alt="Author photo" class="avatar">
+          </div>
+          <div class="author-info">
+            <div class="author-name">{{ authorName }}</div>
+            <div class="post-date">{{ postDate }}</div>
+          </div>
+        </div>
+        
+        <!-- Post content -->
+        <div class="post-body">
+          <h1 class="post-title">{{ post?.title }}</h1>
+          <div class="post-content" [innerHTML]="post?.content"></div>
+        </div>
+      </div>
+      
+      <!-- Comments section -->
+      <div class="comments-section mt-4">
+        <app-comments [postId]="postId"></app-comments>
+      </div>
     </div>
-  </div>
-</div>
-
-<div class="row mt-5">
-  <div class="col-sm-8 offset-sm-2">
-    <app-comments [postId]="postId"></app-comments>
   </div>
 </div>

@@ -76,4 +76,43 @@ export class CommentsComponent implements OnInit {
       console.error("Error getting comments:", error);
     }
   }
+
+  /**
+   * Formats a comment timestamp to a readable format
+   */
+  formatCommentDate(timestamp: any): string {
+    if (!timestamp || !timestamp.toDate) {
+      return '';
+    }
+    
+    const commentDate = timestamp.toDate();
+    const now = new Date();
+    const diffMs = now.getTime() - commentDate.getTime();
+    
+    // Convert to seconds
+    const diffSeconds = Math.floor(diffMs / 1000);
+    
+    if (diffSeconds < 60) {
+      return `${diffSeconds}s ago`;
+    } else if (diffSeconds < 3600) {
+      // Minutes
+      const minutes = Math.floor(diffSeconds / 60);
+      return `${minutes}m ago`;
+    } else if (diffSeconds < 86400) {
+      // Hours
+      const hours = Math.floor(diffSeconds / 3600);
+      return `${hours}h ago`;
+    } else if (diffSeconds < 604800) {
+      // Days
+      const days = Math.floor(diffSeconds / 86400);
+      return `${days}d ago`;
+    } else {
+      // More than a week, show the full date
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const month = monthNames[commentDate.getMonth()];
+      const day = commentDate.getDate();
+      const year = commentDate.getFullYear() !== now.getFullYear() ? `, ${commentDate.getFullYear()}` : '';
+      return `${month} ${day}${year}`;
+    }
+  }
 }

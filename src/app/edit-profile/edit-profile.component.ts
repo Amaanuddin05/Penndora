@@ -3,6 +3,7 @@ import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { AuthService } from '../auth.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -20,16 +21,21 @@ export class EditProfileComponent implements OnInit {
   };
   message: string = '';
   safePhotoURL: SafeUrl | undefined;
+  isLoading: boolean = true;
+  isUpdating: boolean = false;
   private auth = getAuth();
   private firestore = getFirestore();
 
   constructor(
     private authService: AuthService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {}
 
   async ngOnInit() {
+    this.isLoading = true;
     await this.getProfile();
+    this.isLoading = false;
   }
 
   async getProfile() {
@@ -38,6 +44,7 @@ export class EditProfileComponent implements OnInit {
       const currentUser = this.auth.currentUser;
       if (!currentUser) {
         console.error('No user is currently signed in');
+        this.router.navigate(['/login']);
         return;
       }
 
@@ -84,7 +91,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   async update() {
-    this.message = "Updating Profile...";
+    this.message = "";
+    this.isUpdating = true;
     
     try {
       const currentUser = this.auth.currentUser;
@@ -114,11 +122,21 @@ export class EditProfileComponent implements OnInit {
         hobbies: this.user.hobbies || ''
       });
 
-      this.message = "Profile Updated Successfully.";
+      this.message = "Profile updated successfully!";
       console.log('Profile updated successfully');
+      
+      // Reset the update status after a short delay
+      setTimeout(() => {
+        this.isUpdating = false;
+      }, 500);
     } catch (error) {
-      this.message = `Error updating profile: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      this.message = `Error: ${error instanceof Error ? error.message : 'Unable to update profile'}`;
       console.error('Error updating profile:', error);
+      this.isUpdating = false;
     }
+  }
+  
+  cancelEdit() {
+    this.router.navigate(['/profile']);
   }
 }

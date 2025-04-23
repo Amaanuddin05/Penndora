@@ -1,36 +1,42 @@
-
-<div class="row mt-5" *ngIf="loggedIn">
-  <div class="col">
-    <textarea rows="2" placeholder="Comment here..." [(ngModel)]="comment"></textarea>
-  </div>
-</div>
-
-<div class="row" *ngIf="loggedIn">
-  <div class="col">
-    <div class="pull-right">
-      <button class="btn btn-primary" (click)="postComment()">Post</button>
+<div class="comments-container">
+  <h3 class="comments-header">Comments</h3>
+  
+  <!-- Comment form for logged-in users -->
+  <div class="comment-form" *ngIf="loggedIn">
+    <textarea class="comment-input" rows="2" placeholder="Add a comment..." [(ngModel)]="comment"></textarea>
+    <div class="comment-actions">
+      <button class="comment-button" [disabled]="!comment.trim().length" (click)="postComment()">
+        Post Comment
+      </button>
     </div>
   </div>
-</div>
-
-<div class="alert alert-primary" *ngIf="!loggedIn">
-  Please login to post a comment.
-</div> 
-
-<h4>Comments ({{ comments.length }})</h4>
-
-<div class="row mt-3" *ngFor="let comment of comments">
-  <div class="col">
-    <div class="card">
-      <div class="card-header">
-        {{ comment.ownerName }} <i>commented on </i> {{ comment.created.toDate() | date: 'MMM dd, yyyy h:mm a'}}
+  
+  <!-- Login prompt for non-logged-in users -->
+  <div class="login-prompt" *ngIf="!loggedIn">
+    <p>Please login to post a comment</p>
+    <a routerLink="/login" class="login-link">Login</a>
+  </div>
+  
+  <!-- Comments counter -->
+  <div class="comments-counter" *ngIf="comments.length">
+    {{ comments.length }} {{ comments.length === 1 ? 'Comment' : 'Comments' }}
+  </div>
+  
+  <!-- Comments list -->
+  <div class="comments-list">
+    <div class="comment-item" *ngFor="let comment of comments">
+      <div class="comment-header">
+        <div class="commenter">{{ comment.ownerName }}</div>
+        <div class="comment-date">{{ formatCommentDate(comment.created) }}</div>
       </div>
-      <div class="card-body">
-        <div class="card-text">
-          {{ comment.text }}
-        </div>
+      <div class="comment-text">
+        {{ comment.text }}
       </div>
     </div>
-
+    
+    <!-- No comments message -->
+    <div class="no-comments" *ngIf="!comments.length">
+      No comments yet. Be the first to comment!
+    </div>
   </div>
 </div>
