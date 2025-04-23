@@ -2,6 +2,97 @@
   border-radius: 50px;
 }
 
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 12px 15px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+.form-label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.NgxEditor__Wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.NgxEditor__Wrapper:focus-within {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
 .angular-editor-textarea {
   height: 250px;
+  min-height: 200px;
+}
+
+.btn-warning {
+  border-radius: 50px;
+  padding: 0.6rem 2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  background-color: #f6c23e;
+  border-color: #f6c23e;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #e0a800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(246, 194, 62, 0.3);
+}
+
+/* Add animation for the create post section */
+.row {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-header h4 {
+  color: #333;
+  font-weight: 600;
 }

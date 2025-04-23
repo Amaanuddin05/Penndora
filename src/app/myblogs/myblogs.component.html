@@ -1,25 +1,31 @@
 <div class="container">
-  <div class="row mt-5">
+  <div class="row mt-3 mt-md-5">
     <!-- Profile Column -->
-    <div class="col-sm-4" *ngIf="user">
+    <div class="col-12 col-md-4 mb-3 mb-md-0" *ngIf="user">
       <div class="card">
+        <div class="edit-button-container">
+          <a routerLink="/edit-profile/{{user.uid}}" class="edit-profile-icon" title="Edit Profile">
+            <i class="fas fa-pencil-alt"></i>
+          </a>
+        </div>
         <div id="pfp">
           <img class="profile-img" [src]="safePhotoURL" alt="Profile picture">
         </div>
         <!-- <div class="profile-img" [innerHTML]="safePhotoURL"></div> -->
         <div class="card-body">
           <h4 class="card-title">{{ user.displayName }}</h4>
-          <a routerLink="/edit-profile/{{user.uid}}" class="btn btn-sm btn-primary">Edit Profile</a>
         </div>
       </div>
     </div>
 
     <!-- Content Column -->
-    <div class="col-sm-8">
+    <div class="col-12 col-md-8">
       <!-- <app-create></app-create> -->
       <!-- Post Creation and List of Posts -->
       <app-create (postCreated)="onPostCreated()"></app-create>
-      <app-post *ngFor="let post of posts" [post]="post" (onDelete)="onDelete()"></app-post>
-    
+      <div class="posts-container">
+        <app-post *ngFor="let post of posts" [post]="post" (onDelete)="onDelete()"></app-post>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase/compat/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-
+import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { AuthService } from '../auth.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -10,49 +10,115 @@ import 'firebase/auth';
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent implements OnInit {
-  user: any = {};
-  message!: string; // Initialize or assert definite assignment for message
+  user: any = {
+    displayName: '',
+    email: '',
+    photoURL: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cmVjdCBmaWxsPSIjNGU3M2RmIiB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIvPjxjaXJjbGUgZmlsbD0iI2ZmZiIgY3g9IjEyOCIgY3k9IjEwMCIgcj0iNDAiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNjQsMTg1YzAsNDQsMzAsODAsNjQsODAsNjQsMCw2NC0zMCw2NC04MHMtMjgtNDItNjQtNDJTNjQsMTQxLDY0LDE4NVoiLz48L3N2Zz4=', // Default SVG avatar
+    bio: '',
+    interests: '',
+    hobbies: ''
+  };
+  message: string = '';
+  safePhotoURL: SafeUrl | undefined;
+  private auth = getAuth();
+  private firestore = getFirestore();
 
-  constructor() {
-    this.getProfile();
+  constructor(
+    private authService: AuthService,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  async ngOnInit() {
+    await this.getProfile();
   }
 
-  ngOnInit() {
+  async getProfile() {
+    try {
+      // Get current user
+      const currentUser = this.auth.currentUser;
+      if (!currentUser) {
+        console.error('No user is currently signed in');
+        return;
+      }
+
+      // Get user data from Firestore
+      const userDocRef = doc(this.firestore, 'users', currentUser.uid);
+      const userSnapshot = await getDoc(userDocRef);
+
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+        this.user = {
+          ...userData,
+          displayName: userData['firstName'] + ' ' + userData['lastName'],
+          id: currentUser.uid
+        };
+
+        // Handle photoURL
+        if (userData['photoURL']) {
+          this.user.photoURL = userData['photoURL'];
+          this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(userData['photoURL']);
+        } else if (currentUser.photoURL) {
+          this.user.photoURL = currentUser.photoURL;
+          this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(currentUser.photoURL);
+        }
+
+        console.log('User profile loaded:', this.user);
+      } else {
+        console.log('No user document found, using Auth user data');
+        
+        // Use data from Auth if no Firestore document exists
+        this.user = {
+          displayName: currentUser.displayName || '',
+          email: currentUser.email || '',
+          photoURL: currentUser.photoURL || this.user.photoURL,
+          id: currentUser.uid
+        };
+
+        if (currentUser.photoURL) {
+          this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(currentUser.photoURL);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
   }
 
+  async update() {
+    this.message = "Updating Profile...";
+    
+    try {
+      const currentUser = this.auth.currentUser;
+      if (!currentUser) {
+        throw new Error('No user is currently signed in');
+      }
 
-  getProfile() {
-    let userId = firebase.auth().currentUser!.uid; // Access current user's uid safely
-    firebase.firestore().collection("users").doc(userId).get().then((documentSnapshot) => {
-      this.user = documentSnapshot.data(); // Retrieve user data from Firestore
-      this.user.displayName = this.user.firstName + " " + this.user.lastName; // Construct displayName
-      this.user.id = documentSnapshot.id; // Assign document id to user object
-      console.log(this.user); // Log user data
-    }).catch((error) => {
-      console.log(error); // Log any errors
-    });
-  }
+      // Split display name into first and last name
+      const nameParts = this.user.displayName.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
 
-  update() {
-    this.message = "Updating Profile..."; // Display updating message
-  
-    firebase.auth().currentUser!.updateProfile({
-      displayName: this.user.displayName, photoURL: this.user.photoUrl // Update user profile in Firebase Auth
-    }).then(() => {
-      let userId = firebase.auth().currentUser!.uid; // Get current user's uid
-      firebase.firestore().collection("users").doc(userId).update({
-        first_name: this.user.displayName.split(' ')[0], // Update first_name in Firestore
-        last_name: this.user.displayName.split(' ')[1], // Update last_name in Firestore
-        hobbies: this.user.hobbies, // Update hobbies in Firestore
-        interests: this.user.interests, // Update interests in Firestore
-        bio: this.user.bio // Update bio in Firestore
-      }).then(() => {
-        this.message = "Profile Updated Successfully."; // Update success message
-      }).catch((error) => {
-        console.log(error); // Log Firestore update error
+      // Update Firebase Auth profile
+      await updateProfile(currentUser, {
+        displayName: this.user.displayName,
+        photoURL: this.user.photoURL
       });
-    }).catch((error) => {
-      console.log(error); // Log Firebase Auth update error
-    });
+
+      // Update Firestore document
+      const userDocRef = doc(this.firestore, 'users', currentUser.uid);
+      await updateDoc(userDocRef, {
+        firstName: firstName,
+        lastName: lastName,
+        photoURL: this.user.photoURL,
+        bio: this.user.bio || '',
+        interests: this.user.interests || '',
+        hobbies: this.user.hobbies || ''
+      });
+
+      this.message = "Profile Updated Successfully.";
+      console.log('Profile updated successfully');
+    } catch (error) {
+      this.message = `Error updating profile: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      console.error('Error updating profile:', error);
+    }
   }
 }

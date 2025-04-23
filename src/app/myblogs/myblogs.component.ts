@@ -13,26 +13,49 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 export class MyblogsComponent implements OnInit {
   user: any = {};
   posts: any[] = [];
-  safePhotoURL: SafeUrl | undefined;
+  safePhotoURL: SafeUrl | string = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cmVjdCBmaWxsPSIjNGU3M2RmIiB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIvPjxjaXJjbGUgZmlsbD0iI2ZmZiIgY3g9IjEyOCIgY3k9IjEwMCIgcj0iNDAiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNjQsMTg1YzAsNDQsMzAsODAsNjQsODAsNjQsMCw2NC0zMCw2NC04MHMtMjgtNDItNjQtNDJTNjQsMTQxLDY0LDE4NVoiLz48L3N2Zz4='; // Default SVG avatar
 
-
-  constructor(private firestore: AngularFirestore, private auth: AngularFireAuth,private sanitizer: DomSanitizer,private authService: AuthService) {
+  constructor(
+    private firestore: AngularFirestore, 
+    private auth: AngularFireAuth,
+    private sanitizer: DomSanitizer,
+    private authService: AuthService
+  ) {
     // firebase.firestore().settings({
     //   timestampsInSnapshots: true
     // });
-    this.user = this.auth.currentUser;
-    console.log(this.user)
     this.getPosts();
   }
 
-
   ngOnInit() {
     this.authService.user$.subscribe((user) => {
-      this.user = user;
-      if (this.user?.photoURL) {
-        this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(this.user.photoURL);
+      if (user) {
+        this.user = user;
+        console.log('User data in myblogs:', user);
+        
+        if (user.photoURL) {
+          // Handle both direct URLs and data URLs
+          this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(user.photoURL);
+          console.log('Photo URL set:', user.photoURL);
+        } else {
+          // If no photoURL, check Firestore for the user's profile photo
+          this.getUserFromFirestore(user.uid);
+        }
+        
+        this.getPosts();
       }
-      this.getPosts();
+    });
+  }
+
+  getUserFromFirestore(userId: string) {
+    this.firestore.collection('users').doc(userId).get().subscribe(doc => {
+      if (doc.exists) {
+        const userData = doc.data() as { photoURL?: string };
+        if (userData?.photoURL) {
+          this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(userData.photoURL);
+          console.log('Photo URL from Firestore:', userData.photoURL);
+        }
+      }
     });
   }
 
@@ -55,7 +78,6 @@ export class MyblogsComponent implements OnInit {
     // refresh the list of posts
     this.posts = [];
     this.getPosts();
-
   }
 
   onDelete(){
@@ -63,5 +85,4 @@ export class MyblogsComponent implements OnInit {
     this.posts = [];
     this.getPosts();
   }
-
 }

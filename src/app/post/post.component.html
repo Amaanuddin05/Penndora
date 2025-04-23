@@ -1,22 +1,50 @@
 <div class="card text-dark mt-3">
   <div class="card-body">
-    <div class="card-title">
-      <h2>{{ postData.title }}</h2>
-    </div>
-
-    <div class="card-text" style="display: flex;">
-      <span [innerHTML]="postData.content.substring(0,50)"></span> ...
-      <a class="card-link" [routerLink]="'/view/' + postData.id">Read More</a>
-
+    <div class="tweet-layout">
+      <!-- Profile photo column -->
+      <div class="profile-column">
+        <a class="writer-photo" routerLink="/profile/{{postData.owner}}">
+          <img [src]="writerPhoto" alt="Writer photo" class="writer-avatar">
+        </a>
+      </div>
+      
+      <!-- Content column -->
+      <div class="content-column">
+        <!-- Header row with name and date -->
+        <div class="tweet-header">
+          <a class="user-name" routerLink="/profile/{{postData.owner}}">{{ writerName }}</a>
+          <span class="tweet-time">· {{ timeAgo }}</span>
+        </div>
+        
+        <!-- Clickable post content area -->
+        <div class="post-clickable-area" [routerLink]="'/view/' + postData.id">
+          <!-- Post title as bold heading -->
+          <div class="tweet-title">
+            {{ postData.title }}
+          </div>
+          
+          <!-- Post content -->
+          <div class="tweet-content">
+            <div class="content-preview" [innerHTML]="postData.content.substring(0, 180)"></div>
+            <span class="ellipsis" *ngIf="postData.content.length > 180">...</span>
+          </div>
+        </div>
+        
+        <!-- Actions row -->
+        <div class="tweet-actions">
+          <div class="action-buttons-group">
+            <button class="action-button comments-action" [routerLink]="'/view/' + postData.id" title="View comments">
+              <i class="fas fa-comment"></i> <span class="action-text">Comments</span>
+            </button>
+            <button *ngIf="user && user.uid == postData.owner" 
+                    class="action-button delete-action" 
+                    (click)="delete()"
+                    title="Delete this post">
+              <i class="fas fa-trash-alt"></i> <span class="action-text">Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="card-footer text-muted">
-    Posted on {{ postData.created?.toDate() | date: 'MMM dd, yyyy' }}
-    <button type="button" class="btn btn-danger btn-sm float-end" *ngIf="user && user.uid == postData.owner" (click)="delete()">Delete</button>
-  </div>
-
-  <a class="card-footer text-muted" *ngIf="(user && postData.owner != user.uid) || !user" routerLink="/profile/{{postData.owner}}">
-    View Writer's Profile
-  </a>
 </div>
