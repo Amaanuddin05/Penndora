@@ -17,25 +17,42 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Log all requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // Health check endpoint
 app.get('/', (req, res) => {
+  console.log('Health check endpoint accessed');
   res.status(200).json({ status: 'Gemini API server is running' });
+});
+
+// Test endpoint to verify API is working
+app.get('/api/test', (req, res) => {
+  console.log('Test endpoint accessed');
+  res.status(200).json({ message: 'API is working correctly' });
 });
 
 // Gemini API endpoint
 app.post('/api/gemini', async (req, res) => {
+  console.log('Gemini API endpoint accessed with body:', req.body);
   try {
     const { prompt } = req.body;
     
     if (!prompt) {
+      console.log('Error: No prompt provided');
       return res.status(400).json({ error: 'Prompt is required' });
     }
     
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      console.log('Error: No API key configured');
       return res.status(500).json({ error: 'Gemini API key is not configured' });
     }
     
+    console.log('Sending request to Gemini API with prompt:', prompt.substring(0, 100) + '...');
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${apiKey}`,
       {
@@ -68,6 +85,7 @@ app.post('/api/gemini', async (req, res) => {
     
     const data = await response.json();
     const reply = data.candidates[0].content.parts[0].text;
+    console.log('Successfully received response from Gemini API');
     
     return res.json({ reply });
   } catch (error) {
@@ -76,8 +94,15 @@ app.post('/api/gemini', async (req, res) => {
   }
 });
 
+// Handle 404 errors
+app.use((req, res) => {
+  console.log(`404 - Route not found: ${req.originalUrl}`);
+  res.status(404).json({ error: 'Route not found' });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Visit http://localhost:${PORT} for the health check endpoint`);
+  console.log(`API endpoint available at http://localhost:${PORT}/api/gemini`);
 }); 

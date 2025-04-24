@@ -11,15 +11,18 @@ export interface GeminiResponse {
   providedIn: 'root'
 })
 export class AiAssistantService {
-  private apiUrl = environment.geminiApiUrl;
+  // Hard-code the URL directly to ensure it's correct
+  private apiUrl = 'https://penndora-backend.onrender.com/api/gemini';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log('Using API URL:', this.apiUrl);
+  }
 
   /**
    * Sends a prompt to the Gemini API and returns the response
    */
   generateContent(prompt: string): Observable<GeminiResponse> {
-    console.log('Sending request to Gemini API:', { prompt });
+    console.log('Sending request to Gemini API:', { prompt, url: this.apiUrl });
     return this.http.post<GeminiResponse>(this.apiUrl, { prompt })
       .pipe(
         tap(response => console.log('Received response from Gemini API:', response)),

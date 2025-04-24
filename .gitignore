@@ -48,3 +48,4 @@ Thumbs.db
 
 # Firebase config file for security
 src/environments/firebase.environment.ts
+src/environments/environment.prod.ts
