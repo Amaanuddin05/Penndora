@@ -18,8 +18,8 @@
     <!-- Profile Card -->
     <div class="card">
       <div class="card-body position-relative">
-        <!-- Edit Profile Button -->
-        <a routerLink="/edit-profile/{{user.uid}}" class="edit-profile-btn">
+        <!-- Edit Profile Button - Only show for own profile -->
+        <a *ngIf="isOwnProfile" routerLink="/edit-profile/{{user.id}}" class="edit-profile-btn">
           <i class="fas fa-pen"></i> <span class="btn-text">Edit Profile</span>
         </a>
         

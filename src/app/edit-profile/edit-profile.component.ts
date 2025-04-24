@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
-import { getAuth, updateProfile } from 'firebase/auth';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth';
 import { AuthService } from '../auth.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { auth, firestore } from '../firebase.utils';
 
 @Component({
   selector: 'app-edit-profile',
@@ -23,8 +24,8 @@ export class EditProfileComponent implements OnInit {
   safePhotoURL: SafeUrl | undefined;
   isLoading: boolean = true;
   isUpdating: boolean = false;
-  private auth = getAuth();
-  private firestore = getFirestore();
+  private auth = auth;
+  private firestore = firestore;
 
   constructor(
     private authService: AuthService,

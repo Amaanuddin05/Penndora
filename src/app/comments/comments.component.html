@@ -33,7 +33,7 @@
     <div class="comment" *ngFor="let comment of comments">
       <div class="comment-header">
         <div class="comment-author">{{ comment.ownerName || comment.authorName }}</div>
-        <div class="comment-date">{{ formatCommentDate(comment.created || comment.timestamp) }}</div>
+        <div class="comment-date">  . {{ formatCommentDate(comment.created || comment.timestamp) }}</div>
       </div>
       <div class="comment-body">
         {{ comment.text }}

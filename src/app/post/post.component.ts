@@ -1,11 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthService } from '../auth.service';
+import firebase from '../firebase.utils';
 
 @Component({
   selector: 'app-post',
@@ -53,7 +51,7 @@ export class PostComponent implements OnInit {
   async ngOnInit() {
     this.postData = { ...this.post }; // Make a copy to avoid reference issues
     this.postData.id = this.post.id || this.postData.id; // ✅ Ensure postData.id exists
-    console.log(this.postData);
+    // console.log(this.postData);
     
     // Generate border color based on user ID
     if (this.postData.owner) {

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Firestore, collection, addDoc, query, where, orderBy, getDocs, serverTimestamp } from '@angular/fire/firestore';
 import { docData } from 'rxfire/firestore';
-import { getAuth } from '@angular/fire/auth';
+import { auth } from '../firebase.utils';
 
 @Component({
   selector: 'app-comments',
@@ -15,7 +15,7 @@ export class CommentsComponent implements OnInit {
   comments: any[] = [];
   loggedIn: boolean = false;
   user: any = {};
-  private auth = getAuth();
+  private auth = auth;
   isLoading: boolean = true;
 
   @Input() postId: string = '';

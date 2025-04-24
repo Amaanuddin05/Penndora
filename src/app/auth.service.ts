@@ -1,49 +1,20 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, User, Auth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, User, Auth } from 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from './firebase.utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private auth: Auth;
-  private firestore;
+  private auth: Auth = auth;
+  private firestore = firestore;
   private userSubject = new BehaviorSubject<User | null>(null);
   diceBearBaseUrl = 'https://api.dicebear.com/9.x/fun-emoji/svg?seed=';
 
   constructor(private http: HttpClient) {
-    // const firebaseConfig = {
-    //   apiKey: "AIzaSyAejaIf_fFPGWm8BHKAlWrIj0zFoFFnJUg",
-    //   authDomain: "scribe-570db.firebaseapp.com",
-    //   projectId: "scribe-570db",
-    //   storageBucket: "scribe-570db.appspot.com",
-    //   messagingSenderId: "460535388327",
-    //   appId: "1:460535388327:web:feea0e275b282c27c9a382",
-    //   measurementId: "G-C6FV7HYPQ4"
-    // };
-    const firebaseConfig = {
-      apiKey: "AIzaSyC-aXm870ZIqxg1XMk_Cr90bRop5H6_RZE",
-      authDomain: "penndora-6b0ec.firebaseapp.com",
-      projectId: "penndora-6b0ec",
-      storageBucket: "penndora-6b0ec.firebasestorage.app",
-      messagingSenderId: "303580676033",
-      appId: "1:303580676033:web:10a750dbaa37433ceeb940",
-      measurementId: "G-6XGHK7417T"
-    };
-    
-    let app;
-    if (!getApps().length) {
-      app = initializeApp(firebaseConfig);
-    } else {
-      app = getApp(); // use the existing initialized app
-    }
-    this.auth = getAuth(app);
-    this.firestore = getFirestore(app);
-
     this.initializeUser();
   }
 

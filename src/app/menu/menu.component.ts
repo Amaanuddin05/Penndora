@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import * as firebase from 'firebase/app';
-import { Auth, getAuth, onAuthStateChanged } from 'firebase/auth'
-import 'firebase/auth';
+import { auth } from '../firebase.utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -11,9 +10,9 @@ import 'firebase/auth';
 export class MenuComponent {
   loggedIn: boolean = false;
   user: any;
-  auth = getAuth();
+  auth = auth;
 
-  constructor() {
+  constructor(private router: Router) {
     this.user = this.auth.currentUser;
     if(this.user) {
       this.loggedIn = true;
@@ -35,7 +34,11 @@ export class MenuComponent {
   }
 
   logout(){
-    this.auth.signOut();
+    this.auth.signOut().then(() => {
+      this.router.navigate(['/login']);
+    }).catch(error => {
+      console.error('Error during sign out:', error);
+    });
   }
   
   confirmLogout() {

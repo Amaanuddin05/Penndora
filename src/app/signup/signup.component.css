@@ -32,6 +32,25 @@ input {
   margin-bottom: 10px; /* Adjust margin for better spacing */
 }
 
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  padding: 5px;
+  z-index: 10;
+}
+
+.password-toggle:hover {
+  color: #2e7cf6;
+}
+
 @media (max-width: 576px) {
   .background-left {
     display: none; /* Hide background image on screens smaller than sm */

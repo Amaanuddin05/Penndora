@@ -45,3 +45,6 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Firebase config file for security
+src/environments/firebase.environment.ts

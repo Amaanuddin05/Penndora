@@ -13,6 +13,7 @@ Penndora is a web application designed to provide a platform for creative expres
   - [🔧 Prerequisites](#-prerequisites)
   - [🧪 Installation](#-installation)
   - [▶️ Development Server](#️-development-server)
+  - [🔥 Firebase Configuration](#-firebase-configuration)
 - [🏗️ Code Scaffolding](#️-code-scaffolding)
 - [📦 Build](#-build)
 - [✅ Running Tests](#-running-tests)
@@ -70,6 +71,31 @@ ng serve
 ```
 
 Navigate to `http://localhost:4200/` in your browser. The application will automatically reload if you make any changes to the source files.
+
+### 🔥 Firebase Configuration
+
+This project uses Firebase for authentication, database, and hosting. For security reasons, the Firebase configuration is not included in the repository. 
+
+To set up Firebase for this project:
+
+1. Create a file named `firebase.environment.ts` in the `src/environments/` directory
+2. Add your Firebase configuration:
+
+```typescript
+export const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
+};
+```
+
+3. Replace the placeholder values with your actual Firebase project credentials.
+
+**Note:** The `firebase.environment.ts` file is included in `.gitignore` to prevent exposing your Firebase credentials.
 
 ---
 

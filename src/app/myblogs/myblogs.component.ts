@@ -31,7 +31,7 @@ export class MyblogsComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       if (user) {
         this.user = user;
-        console.log('User data in myblogs:', user);
+        // console.log('User data in myblogs:', user);
         
         if (user.photoURL) {
           // Handle both direct URLs and data URLs
@@ -68,7 +68,7 @@ export class MyblogsComponent implements OnInit {
           const id = a.payload.doc.id;
           return { id, ...data };
         });
-        console.log('Fetched posts:', this.posts); // Log the fetched posts
+        // console.log('Fetched posts:', this.posts); // Log the fetched posts
       }, (err: any) => {
         console.error('Error fetching posts:', err);
       });
