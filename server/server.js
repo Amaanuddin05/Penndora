@@ -1,10 +1,6 @@
-/**
- * Express.js server that exposes a POST endpoint to interact with Google's Gemini API.
- * This server accepts prompts from clients and forwards them to the Gemini API,
- * then returns the AI-generated responses.
- */
+// import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
-import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
