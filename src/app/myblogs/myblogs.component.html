@@ -18,14 +18,14 @@
       </div>
     </div>
 
-    <!-- Content Column -->
+    <!-- Content Column - Contains only Create component -->
     <div class="col-12 col-md-8">
-      <!-- <app-create></app-create> -->
-      <!-- Post Creation and List of Posts -->
       <app-create (postCreated)="onPostCreated()"></app-create>
-      <div class="posts-container">
-        <app-post *ngFor="let post of posts" [post]="post" (onDelete)="onDelete()"></app-post>
-      </div>
     </div>
+  </div>
+  
+  <!-- Posts section - Centered to whole page -->
+  <div class="centered-posts-container">
+    <app-post *ngFor="let post of posts" [post]="post" (onDelete)="onDelete()"></app-post>
   </div>
 </div>

@@ -165,7 +165,24 @@
     margin-bottom: 15px;
   }
 }
-
 .posts-container {
   margin-top: 20px;
 }
+
+/* Centered posts container */
+.centered-posts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  /* margin-top: 30px; */
+}
+
+/* Style for post items */
+app-post {
+  width: 100%;
+  /* max-width: 800px; */
+  margin-bottom: 5px;
+  display: block;
+}
+
