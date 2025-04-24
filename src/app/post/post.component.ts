@@ -22,6 +22,26 @@ export class PostComponent implements OnInit {
   writerPhoto: SafeUrl | string = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cmVjdCBmaWxsPSIjNGU3M2RmIiB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIvPjxjaXJjbGUgZmlsbD0iI2ZmZiIgY3g9IjEyOCIgY3k9IjEwMCIgcj0iNDAiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNjQsMTg1YzAsNDQsMzAsODAsNjQsODAsNjQsMCw2NC0zMCw2NC04MHMtMjgtNDItNjQtNDJTNjQsMTQxLDY0LDE4NVoiLz48L3N2Zz4='; // Default SVG avatar
   writerName: string = 'Unknown Writer';
   timeAgo: string = '';
+  borderColor: string = '#1d9bf0'; // Default color
+  
+  // Vibrant color options
+  private colorPalette: string[] = [
+    '#1DA1F2', // Twitter Blue
+    '#E1306C', // Instagram Pink/Red
+    '#6D28D9', // Purple
+    '#2563EB', // Royal Blue
+    '#10B981', // Emerald Green
+    '#F59E0B', // Amber
+    '#EF4444', // Red
+    '#3B82F6', // Blue
+    '#EC4899', // Pink
+    '#8B5CF6', // Purple
+    '#14B8A6', // Teal
+    '#F97316', // Orange
+    '#06B6D4', // Cyan
+    '#84CC16', // Lime
+    '#F43F5E'  // Rose
+  ];
 
   constructor(
     private firestore: AngularFirestore, 
@@ -34,6 +54,11 @@ export class PostComponent implements OnInit {
     this.postData = { ...this.post }; // Make a copy to avoid reference issues
     this.postData.id = this.post.id || this.postData.id; // ✅ Ensure postData.id exists
     console.log(this.postData);
+    
+    // Generate border color based on user ID
+    if (this.postData.owner) {
+      this.borderColor = this.generateColorFromUserId(this.postData.owner);
+    }
     
     // Calculate time ago string
     if (this.postData.created) {
@@ -114,5 +139,20 @@ export class PostComponent implements OnInit {
     }).catch(error => {
       console.error('Error deleting post:', error);
     });
+  }
+
+  // Generate a consistent color based on user ID
+  generateColorFromUserId(userId: string): string {
+    if (!userId) return this.colorPalette[0];
+    
+    // Simple hash function to convert userId string to a number
+    let hash = 0;
+    for (let i = 0; i < userId.length; i++) {
+      hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Use the hash to select a color from our palette
+    const index = Math.abs(hash) % this.colorPalette.length;
+    return this.colorPalette[index];
   }
 }

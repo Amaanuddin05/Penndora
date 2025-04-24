@@ -7,10 +7,21 @@
   overflow: hidden;
   margin-bottom: 20px;
   background-color: white;
+  position: relative;
+  border-left-width: 4px !important;
 }
 
 .card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card:hover::after {
+  opacity: 0.1;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card-body {
@@ -417,4 +428,33 @@ i.fas {
   .action-button i {
     margin-right: 5px;
   }
+}
+
+/* Colored Border Effect */
+.colored-border {
+  overflow: hidden;
+}
+
+.colored-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3));
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.colored-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(to right, var(--border-color, inherit), transparent);
+  opacity: 0.05;
+  z-index: 0;
 }
