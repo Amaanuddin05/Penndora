@@ -16,10 +16,145 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-end">
-      <button (click)="createPost()" class="btn btn-warning rounded-pill">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+      <!-- AI Assistant Button -->
+      <button (click)="toggleAiAssistant()" class="btn btn-outline-primary rounded-pill w-100 w-sm-auto">
+        <i class="fas fa-robot me-2"></i>AI Assistant
+      </button>
+      
+      <button (click)="createPost()" class="btn btn-warning rounded-pill w-100 w-sm-auto">
         <i class="fas fa-paper-plane me-2"></i>Publish Post
       </button>
+    </div>
+    
+    <!-- AI Assistant Panel -->
+    <div *ngIf="showAiAssistant" class="mt-4 ai-assistant-panel">
+      <div class="card">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">AI Blog Assistant</h5>
+          <button class="btn btn-sm btn-outline-secondary rounded-circle" (click)="toggleAiAssistant()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <!-- Feature Selection Tabs -->
+          <ul class="nav nav-tabs mb-3 flex-nowrap overflow-auto">
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="assistantType === 'title'" (click)="selectAssistantFeature('title')" href="javascript:void(0)">
+                <i class="fas fa-heading d-block d-sm-none"></i>
+                <span class="d-none d-sm-inline">Title Suggestions</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="assistantType === 'content'" (click)="selectAssistantFeature('content')" href="javascript:void(0)">
+                <i class="fas fa-lightbulb d-block d-sm-none"></i>
+                <span class="d-none d-sm-inline">Content Ideas</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="assistantType === 'grammar'" (click)="selectAssistantFeature('grammar')" href="javascript:void(0)">
+                <i class="fas fa-spell-check d-block d-sm-none"></i>
+                <span class="d-none d-sm-inline">Grammar & Style</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="assistantType === 'complete'" (click)="selectAssistantFeature('complete')" href="javascript:void(0)">
+                <i class="fas fa-pen-fancy d-block d-sm-none"></i>
+                <span class="d-none d-sm-inline">Sentence Completion</span>
+              </a>
+            </li>
+          </ul>
+          
+          <!-- Content Ideas UI -->
+          <div *ngIf="assistantType === 'content'" class="mb-3">
+            <label class="form-label">Enter a topic to get content ideas:</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" [(ngModel)]="assistantPrompt" placeholder="e.g., sustainable living, digital marketing, etc.">
+              <button class="btn btn-primary" type="button" (click)="generateContentIdeas()" [disabled]="isLoading">
+                <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-lightbulb]="!isLoading"></i>
+                <span class="d-none d-sm-inline ms-1">Generate</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Title Suggestions UI -->
+          <div *ngIf="assistantType === 'title'" class="mb-3">
+            <p>Generate engaging title suggestions based on your post content:</p>
+            <button class="btn btn-primary w-100 w-sm-auto" (click)="generateTitleSuggestions()" [disabled]="isLoading">
+              <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-heading]="!isLoading"></i>
+              <span class="ms-2">Generate Title Suggestions</span>
+            </button>
+          </div>
+          
+          <!-- Grammar & Style UI -->
+          <div *ngIf="assistantType === 'grammar'" class="mb-3">
+            <p>Check your post for grammar and style improvements:</p>
+            <button class="btn btn-primary w-100 w-sm-auto" (click)="checkGrammarAndStyle()" [disabled]="isLoading">
+              <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-spell-check]="!isLoading"></i>
+              <span class="ms-2">Check Grammar & Style</span>
+            </button>
+          </div>
+          
+          <!-- Sentence Completion UI -->
+          <div *ngIf="assistantType === 'complete'" class="mb-3">
+            <p>Get suggestions to continue your writing:</p>
+            <button class="btn btn-primary w-100 w-sm-auto" (click)="completeSentence()" [disabled]="isLoading">
+              <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-pen-fancy]="!isLoading"></i>
+              <span class="ms-2">Complete My Sentence</span>
+            </button>
+          </div>
+          
+          <!-- Response Area for Grammar and Sentence Completion -->
+          <div *ngIf="assistantResponse && (assistantType === 'grammar' || assistantType === 'complete')" class="mt-3 p-3 bg-light rounded assistant-response">
+            <h6>AI Suggestions:</h6>
+            <div [innerHTML]="assistantResponse"></div>
+            
+            <!-- Apply button for sentence completion -->
+            <div *ngIf="assistantType === 'complete'" class="mt-2">
+              <button class="btn btn-sm btn-success" (click)="applyCompletion(assistantResponse)">
+                <i class="fas fa-plus-circle me-1"></i> Add to Post
+              </button>
+            </div>
+          </div>
+          
+          <!-- Title Suggestions Response Area -->
+          <div *ngIf="assistantResponse && assistantType === 'title'" class="mt-3 p-3 bg-light rounded assistant-response">
+            <h6>Title Suggestions:</h6>
+            <div class="title-suggestions">
+              <div *ngFor="let title of parseTitleSuggestions(assistantResponse)" class="mb-2">
+                <button class="btn btn-outline-primary w-100 text-start title-btn" (click)="applyTitleSuggestion(title)">
+                  {{ title }}
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Content Ideas Response Area -->
+          <div *ngIf="assistantResponse && assistantType === 'content'" class="mt-3 p-3 bg-light rounded assistant-response">
+            <h6>Content Ideas:</h6>
+            <div class="content-ideas">
+              <div *ngFor="let idea of parseContentIdeas(assistantResponse)" class="mb-3 content-idea-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ idea.title }}</h5>
+                    <p class="card-text">{{ idea.description }}</p>
+                    <div class="d-flex flex-wrap justify-content-end gap-2">
+                      <button class="btn btn-sm btn-outline-success" (click)="applyContentTitle(idea.title)">
+                        <i class="fas fa-heading me-1"></i> 
+                        <span class="d-none d-sm-inline">Use as Title</span>
+                      </button>
+                      <button class="btn btn-sm btn-outline-primary" (click)="applyContentIdea(idea.fullText)">
+                        <i class="fas fa-file-alt me-1"></i> 
+                        <span class="d-none d-sm-inline">Use as Outline</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

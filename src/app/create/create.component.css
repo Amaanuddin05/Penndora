@@ -27,6 +27,9 @@
   overflow: hidden;
   border: 1px solid #e0e0e0;
   margin-bottom: 20px;
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .NgxEditor__Wrapper:focus-within {
@@ -95,4 +98,156 @@
 .card-header h4 {
   color: #333;
   font-weight: 600;
+}
+
+.ai-assistant-panel {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.assistant-response {
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-line;
+}
+
+/* Responsive tabs */
+.nav-tabs {
+  border-bottom: 1px solid #dee2e6;
+  flex-wrap: nowrap;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.nav-tabs::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  margin-bottom: -1px;
+  transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: 500;
+  border-bottom: 2px solid #007bff;
+}
+
+.list-group-item {
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+/* Title suggestions styling */
+.title-suggestions .title-btn {
+  text-align: left;
+  white-space: normal;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.title-suggestions .title-btn:hover {
+  background-color: #e9f0ff;
+  border-color: #007bff;
+}
+
+/* Content ideas styling */
+.content-idea-card {
+  transition: all 0.3s ease;
+}
+
+.content-idea-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.content-idea-card .card {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.content-idea-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.content-idea-card .card-text {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive utility classes */
+@media (max-width: 576px) {
+  .w-sm-auto {
+    width: 100% !important;
+  }
+  
+  .card-header {
+    padding: 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .assistant-response {
+    padding: 0.75rem !important;
+  }
+  
+  .content-idea-card .card-body {
+    padding: 0.75rem;
+  }
+  
+  .content-idea-card .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .w-sm-auto {
+    width: auto !important;
+  }
+}
+
+/* Animation for AI Assistant panel */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-assistant-panel {
+  animation: slideDown 0.3s ease-in-out;
 }
