@@ -38,10 +38,17 @@ export class AiAssistantService {
    */
   generateContentIdeas(topic: string): Observable<GeminiResponse> {
     const prompt = `Generate 5 engaging content ideas related to: "${topic}". 
-Format each idea as a numbered list with a bold title followed by a brief description of the idea. 
-For example:
-1. **Title of the Idea:** Brief description explaining what the content would cover and why it would be interesting to readers.
+Format each idea as a numbered list with a bold title followed by bullet points that outline the flow of content.
 
+For example:
+1. **Clear and Engaging Title:** 
+• First main point to explore in the article
+• Second key area to cover, including specific examples
+• How to implement or what readers should take away
+• Concluding thoughts on this topic
+
+IMPORTANT: Be sure to use the bullet point character "•" for each point, followed by a space, then the content. 
+Each bullet point should help guide the writing process by suggesting a specific aspect to cover.
 Make each idea specific and actionable with a clear angle, not generic.`;
     return this.generateContent(prompt);
   }
@@ -50,7 +57,16 @@ Make each idea specific and actionable with a clear angle, not generic.`;
    * Checks grammar and style in the provided content
    */
   checkGrammarAndStyle(content: string): Observable<GeminiResponse> {
-    const prompt = `Analyze the following text for grammar and style improvements. Provide specific suggestions: "${content.substring(0, 1000)}..."`;
+    const prompt = `Analyze the following text for grammar improvements only. Provide your response in the following structured format:
+
+GRAMMAR_ISSUES: List all grammar or spelling issues found, with clear explanations,you can ignore if the grammar issues are minor.
+- Issue 1: [original text] → [corrected text] - [brief explanation]
+- Issue 2: [original text] → [corrected text] - [brief explanation]
+...
+
+IMPROVED_VERSION: Provide a fully corrected version of the text with all grammar fixes applied.
+
+Text to analyze: "${content.substring(0, 1000)}..."`;
     return this.generateContent(prompt);
   }
 
@@ -59,6 +75,30 @@ Make each idea specific and actionable with a clear angle, not generic.`;
    */
   completeSentence(content: string): Observable<GeminiResponse> {
     const prompt = `Continue writing the following text with 2-3 additional sentences that naturally flow from it: "${content.substring(0, 500)}..."`;
+    return this.generateContent(prompt);
+  }
+
+  /**
+   * Provides chat-based assistance for writing and content creation
+   */
+  chatWithAssistant(message: string): Observable<GeminiResponse> {
+    const prompt = `You are a helpful writing assistant. Please respond to the following question or request about writing, content creation, or blogging: "${message}"
+
+Provide a helpful response that directly addresses the query. If appropriate, include practical tips or suggestions.
+
+Format your response using:
+- Use **bold** for headings or important points
+- Use * for bullet points when listing items
+- Keep paragraphs concise
+- Use clear structure with headings when appropriate`;
+    return this.generateContent(prompt);
+  }
+
+  /**
+   * Generates a concise summary of the provided content
+   */
+  summarizeContent(content: string): Observable<GeminiResponse> {
+    const prompt = `Create a concise summary (3-5 sentences) of the following content, capturing the main points and key takeaways while maintaining the original tone: "${content.substring(0, 1000)}..."`;
     return this.generateContent(prompt);
   }
 } 

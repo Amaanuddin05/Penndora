@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AiAssistantService } from '../services/ai-assistant.service';
 
 interface Post {
   title: string;
@@ -22,6 +23,11 @@ export class ViewComponent implements OnInit {
   postId: string = "";
   isLoading: boolean = true;
   
+  // Summary functionality
+  summaryText: string = '';
+  isGeneratingSummary: boolean = false;
+  showSummaryModal: boolean = false;
+  
   // Author information
   author: any;
   authorName: string = 'Unknown Author';
@@ -32,7 +38,8 @@ export class ViewComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private ngZone: NgZone,
     private firestore: AngularFirestore,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private aiAssistantService: AiAssistantService
   ) {}
 
   ngOnInit() {
@@ -139,5 +146,36 @@ export class ViewComponent implements OnInit {
       const year = postDate.getFullYear() !== now.getFullYear() ? `, ${postDate.getFullYear()}` : '';
       this.postDate = `${month} ${day}${year}`;
     }
+  }
+  
+  /**
+   * Generates a summary of the post content
+   */
+  summarizeContent() {
+    if (!this.post?.content) return;
+    
+    this.isGeneratingSummary = true;
+    this.showSummaryModal = true;
+    this.summaryText = 'Generating summary...';
+    
+    this.aiAssistantService.summarizeContent(this.post.content)
+      .subscribe({
+        next: (response) => {
+          this.summaryText = response.reply || 'Unable to generate summary.';
+          this.isGeneratingSummary = false;
+        },
+        error: (error) => {
+          console.error('Error generating summary:', error);
+          this.summaryText = 'An error occurred while generating summary.';
+          this.isGeneratingSummary = false;
+        }
+      });
+  }
+  
+  /**
+   * Closes the summary modal
+   */
+  closeSummaryModal() {
+    this.showSummaryModal = false;
   }
 }

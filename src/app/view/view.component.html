@@ -28,6 +28,13 @@
               <div class="author-name">{{ authorName }}</div>
               <div class="post-date">{{ postDate }}</div>
             </div>
+            
+            <!-- Summarize Button -->
+            <div class="ms-auto">
+              <button class="btn btn-outline-primary rounded-pill summarize-btn" (click)="summarizeContent()">
+                <i class="fas fa-robot me-1"></i> AI Summary
+              </button>
+            </div>
           </div>
           
           <!-- Post content -->
@@ -40,6 +47,28 @@
         <!-- Comments section -->
         <div class="comments-section mt-4">
           <app-comments [postId]="postId"></app-comments>
+        </div>
+        
+        <!-- Summary Modal -->
+        <div class="summary-modal" *ngIf="showSummaryModal">
+          <div class="summary-modal-content">
+            <div class="summary-header">
+              <h4>AI-Generated Summary</h4>
+              <button class="close-btn" (click)="closeSummaryModal()">×</button>
+            </div>
+            <div class="summary-body">
+              <div *ngIf="isGeneratingSummary" class="text-center py-4">
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 mb-0">Generating summary...</p>
+              </div>
+              <div *ngIf="!isGeneratingSummary" [innerHTML]="summaryText"></div>
+            </div>
+            <div class="summary-footer">
+              <small class="text-muted">Generated using AI. Results may vary.</small>
+            </div>
+          </div>
         </div>
       </div>
       

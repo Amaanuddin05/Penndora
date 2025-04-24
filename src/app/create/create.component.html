@@ -54,13 +54,13 @@
             <li class="nav-item">
               <a class="nav-link" [class.active]="assistantType === 'grammar'" (click)="selectAssistantFeature('grammar')" href="javascript:void(0)">
                 <i class="fas fa-spell-check d-block d-sm-none"></i>
-                <span class="d-none d-sm-inline">Grammar & Style</span>
+                <span class="d-none d-sm-inline">Grammar Checker</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [class.active]="assistantType === 'complete'" (click)="selectAssistantFeature('complete')" href="javascript:void(0)">
-                <i class="fas fa-pen-fancy d-block d-sm-none"></i>
-                <span class="d-none d-sm-inline">Sentence Completion</span>
+              <a class="nav-link" [class.active]="assistantType === 'chat'" (click)="selectAssistantFeature('chat')" href="javascript:void(0)">
+                <i class="fas fa-comments d-block d-sm-none"></i>
+                <span class="d-none d-sm-inline">Chat Assistant</span>
               </a>
             </li>
           </ul>
@@ -88,32 +88,83 @@
           
           <!-- Grammar & Style UI -->
           <div *ngIf="assistantType === 'grammar'" class="mb-3">
-            <p>Check your post for grammar and style improvements:</p>
+            <p>Check your post for grammar and spelling mistakes:</p>
             <button class="btn btn-primary w-100 w-sm-auto" (click)="checkGrammarAndStyle()" [disabled]="isLoading">
               <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-spell-check]="!isLoading"></i>
-              <span class="ms-2">Check Grammar & Style</span>
+              <span class="ms-2">Check Grammar & Spelling</span>
             </button>
           </div>
           
-          <!-- Sentence Completion UI -->
-          <div *ngIf="assistantType === 'complete'" class="mb-3">
-            <p>Get suggestions to continue your writing:</p>
-            <button class="btn btn-primary w-100 w-sm-auto" (click)="completeSentence()" [disabled]="isLoading">
-              <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-pen-fancy]="!isLoading"></i>
-              <span class="ms-2">Complete My Sentence</span>
-            </button>
-          </div>
-          
-          <!-- Response Area for Grammar and Sentence Completion -->
-          <div *ngIf="assistantResponse && (assistantType === 'grammar' || assistantType === 'complete')" class="mt-3 p-3 bg-light rounded assistant-response">
-            <h6>AI Suggestions:</h6>
-            <div [innerHTML]="assistantResponse"></div>
-            
-            <!-- Apply button for sentence completion -->
-            <div *ngIf="assistantType === 'complete'" class="mt-2">
-              <button class="btn btn-sm btn-success" (click)="applyCompletion(assistantResponse)">
-                <i class="fas fa-plus-circle me-1"></i> Add to Post
+          <!-- Chat Assistant UI -->
+          <div *ngIf="assistantType === 'chat'" class="mb-3">
+            <div class="chat-container rounded border mb-3" id="chatContainer">
+              <div class="chat-messages p-3">
+                <div *ngFor="let message of chatMessages" 
+                     class="chat-message mb-3" 
+                     [ngClass]="{
+                       'chat-message-user': message.role === 'user',
+                       'chat-message-assistant': message.role === 'assistant'
+                     }">
+                  <div class="message-content p-2 rounded">
+                    <div class="message-text" [innerHTML]="message.content"></div>
+                  </div>
+                  <div class="message-timestamp text-muted small">
+                    {{ message.timestamp | date:'short' }}
+                  </div>
+                </div>
+                <div *ngIf="isLoading" class="typing-indicator">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group">
+              <input type="text" class="form-control" 
+                     [(ngModel)]="chatInput" 
+                     placeholder="Ask me anything about writing or content creation..." 
+                     (keyup.enter)="sendChatMessage()">
+              <button class="btn btn-primary" 
+                      type="button" 
+                      (click)="sendChatMessage()" 
+                      [disabled]="isLoading || !chatInput.trim()">
+                <i class="fas" 
+                   [class.fa-spinner]="isLoading" 
+                   [class.fa-spin]="isLoading" 
+                   [class.fa-paper-plane]="!isLoading"></i>
+                <span class="d-none d-sm-inline ms-1">Send</span>
               </button>
+            </div>
+          </div>
+          
+          <!-- Response Area for Grammar -->
+          <div *ngIf="assistantResponse && assistantType === 'grammar'" class="mt-3 p-3 bg-light rounded assistant-response">
+            <div *ngIf="parseGrammarAndStyle(assistantResponse) as analysis">
+              <!-- Grammar Issues -->
+              <div class="mb-4" *ngIf="analysis.grammarIssues.length > 0">
+                <h6 class="mb-2">Grammar Issues:</h6>
+                <div class="list-group">
+                  <div *ngFor="let issue of analysis.grammarIssues" class="list-group-item">
+                    <div>
+                      <div class="mb-1"><span class="text-danger">{{ issue.original }}</span> → <span class="text-success">{{ issue.corrected }}</span></div>
+                      <small class="text-muted">{{ issue.explanation }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Improved Version -->
+              <div class="mb-3" *ngIf="analysis.improvedVersion">
+                <h6 class="mb-2">Corrected Text:</h6>
+                <div class="card">
+                  <div class="card-body">
+                    <p class="mb-2">{{ analysis.improvedVersion }}</p>
+                    <button class="btn btn-success" (click)="applyImprovedVersion(analysis.improvedVersion)">
+                      <i class="fas fa-check-circle me-1"></i> Apply Corrected Text
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -139,13 +190,12 @@
                     <h5 class="card-title">{{ idea.title }}</h5>
                     <p class="card-text">{{ idea.description }}</p>
                     <div class="d-flex flex-wrap justify-content-end gap-2">
-                      <button class="btn btn-sm btn-outline-success" (click)="applyContentTitle(idea.title)">
-                        <i class="fas fa-heading me-1"></i> 
-                        <span class="d-none d-sm-inline">Use as Title</span>
-                      </button>
-                      <button class="btn btn-sm btn-outline-primary" (click)="applyContentIdea(idea.fullText)">
-                        <i class="fas fa-file-alt me-1"></i> 
-                        <span class="d-none d-sm-inline">Use as Outline</span>
+                      <button class="btn btn-sm btn-outline-primary" 
+                        (click)="applyContentIdea(idea)" 
+                        [attr.data-title]="idea.title"
+                        [attr.data-description-length]="idea.description?.length">
+                        <i class="fas fa-magic me-1"></i> 
+                        <span class="d-none d-sm-inline">Use This Idea</span>
                       </button>
                     </div>
                   </div>
@@ -154,6 +204,64 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Chat Button -->
+<div class="floating-chat-button" [class.open]="showFloatingChat" *ngIf="!showAiAssistant">
+  <button class="btn btn-primary rounded-circle chat-toggle-btn" (click)="toggleFloatingChat()">
+    <i class="fas" [class.fa-times]="showFloatingChat" [class.fa-comments]="!showFloatingChat"></i>
+  </button>
+  
+  <!-- Popup Chat -->
+  <div class="floating-chat-popup" *ngIf="showFloatingChat">
+    <div class="floating-chat-header">
+      <h6 class="mb-0">AI Writing Assistant</h6>
+      <button class="btn btn-sm text-white" (click)="toggleFloatingChat()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="floating-chat-body">
+      <div class="chat-messages p-3">
+        <div *ngFor="let message of chatMessages" 
+             class="chat-message mb-3" 
+             [ngClass]="{
+               'chat-message-user': message.role === 'user',
+               'chat-message-assistant': message.role === 'assistant'
+             }">
+          <div class="message-content p-2 rounded">
+            <div class="message-text" [innerHTML]="message.content"></div>
+          </div>
+          <div class="message-timestamp text-muted small">
+            {{ message.timestamp | date:'short' }}
+          </div>
+        </div>
+        <div *ngIf="isLoading" class="typing-indicator">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="floating-chat-footer">
+      <div class="input-group">
+        <input type="text" class="form-control" 
+               [(ngModel)]="chatInput" 
+               placeholder="Ask me anything..." 
+               (keyup.enter)="sendChatMessage()">
+        <button class="btn btn-primary" 
+                type="button" 
+                (click)="sendChatMessage()" 
+                [disabled]="isLoading || !chatInput.trim()">
+          <i class="fas" 
+             [class.fa-spinner]="isLoading" 
+             [class.fa-spin]="isLoading" 
+             [class.fa-paper-plane]="!isLoading"></i>
+        </button>
       </div>
     </div>
   </div>
