@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface GeminiResponse {
   reply: string;
@@ -10,7 +11,7 @@ export interface GeminiResponse {
   providedIn: 'root'
 })
 export class AiAssistantService {
-  private apiUrl = 'http://localhost:5000/api/gemini';
+  private apiUrl = environment.geminiApiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +22,11 @@ export class AiAssistantService {
     console.log('Sending request to Gemini API:', { prompt });
     return this.http.post<GeminiResponse>(this.apiUrl, { prompt })
       .pipe(
-        tap(response => console.log('Received response from Gemini API:', response))
+        tap(response => console.log('Received response from Gemini API:', response)),
+        catchError(error => {
+          console.error('Error from Gemini API:', error);
+          return throwError(() => new Error('Failed to get response from AI. Please try again later.'));
+        })
       );
   }
 
