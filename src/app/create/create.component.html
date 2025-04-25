@@ -3,6 +3,12 @@
     <h4 class="mb-0">Create New Post</h4>
   </div>
   <div class="card-body">
+    <!-- Success message alert -->
+    <div class="alert alert-success alert-dismissible fade show mb-3" *ngIf="showSuccessMessage">
+      <i class="fas fa-check-circle me-2"></i>{{ successMessage }}
+      <button type="button" class="btn-close" (click)="showSuccessMessage = false"></button>
+    </div>
+    
     <div class="mb-3">
       <label for="title" class="form-label">Post Title</label>
       <input type="text" class="form-control" id="title" placeholder="Enter your post title" name="title" [(ngModel)]="title">
@@ -22,7 +28,7 @@
         <i class="fas fa-robot me-2"></i>AI Assistant
       </button>
       
-      <button (click)="createPost()" class="btn btn-warning rounded-pill w-100 w-sm-auto">
+      <button (click)="createPost()" class="btn btn-warning rounded-pill w-100 w-sm-auto" [disabled]="!title || !html">
         <i class="fas fa-paper-plane me-2"></i>Publish Post
       </button>
     </div>

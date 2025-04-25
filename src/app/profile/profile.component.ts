@@ -67,7 +67,9 @@ export class ProfileComponent implements OnInit {
   getUsersPosts(id: string) {
     return new Promise<void>((resolve, reject) => {
       firebase.firestore().collection("posts")
-        .where("owner", "==", id).get().then((querySnapshot) => {
+        .where("owner", "==", id)
+        .orderBy("created", "desc")
+        .get().then((querySnapshot) => {
           this.posts = querySnapshot.docs.map(doc => {
             return { id: doc.id, ...doc.data() };
           });

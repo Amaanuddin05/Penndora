@@ -53,6 +53,10 @@ export class CreateComponent implements OnInit, OnDestroy {
   // Floating chat
   showFloatingChat: boolean = false;
 
+  // Success message
+  successMessage: string = '';
+  showSuccessMessage: boolean = false;
+
   @Output('postCreated') postCreated = new EventEmitter();
 
   editor!: Editor;
@@ -98,6 +102,20 @@ export class CreateComponent implements OnInit, OnDestroy {
       this.firestore.collection('posts').add(post)
         .then(() => {
           console.log('Post created successfully!');
+          
+          // Show success message
+          this.successMessage = 'Post created successfully!';
+          this.showSuccessMessage = true;
+          
+          // Clear form fields
+          this.title = '';
+          this.html = '';
+          
+          // Hide success message after 3 seconds
+          setTimeout(() => {
+            this.showSuccessMessage = false;
+          }, 3000);
+          
           this.postCreated.emit();
         })
         .catch(error => {
