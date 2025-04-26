@@ -1,10 +1,9 @@
-/* Edit Profile Container */
 .container {
   max-width: 1000px;
   margin: 20px auto;
 }
 
-/* Card Styling */
+
 .card {
   border-radius: 15px;
   border: none;
@@ -26,7 +25,7 @@
   font-size: 28px;
 }
 
-/* Profile Image */
+
 .profile-img-container {
   display: flex;
   flex-direction: column;
@@ -46,7 +45,7 @@
   margin-bottom: 15px;
 }
 
-/* Form Controls */
+
 .form-control {
   border-radius: 8px;
   padding: 12px 15px;
@@ -70,7 +69,7 @@ textarea.form-control {
   margin-bottom: 8px;
 }
 
-/* Button Styling */
+
 .update-btn {
   background-color: #1d9bf0;
   color: white;
@@ -90,7 +89,7 @@ textarea.form-control {
   transform: translateY(-2px);
 }
 
-/* Success Message */
+
 .alert-success {
   background-color: #e3f5eb;
   color: #0f7b45;
@@ -100,7 +99,7 @@ textarea.form-control {
   font-weight: 500;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 767px) {
   .profile-img {
     width: 120px;
@@ -113,7 +112,7 @@ textarea.form-control {
   }
 }
 
-/* Back Button */
+
 .back-button {
   margin-top: 15px;
 }

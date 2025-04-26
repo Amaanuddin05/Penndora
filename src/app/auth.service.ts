@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, User, Auth } from 'firebase/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, User, Auth, onAuthStateChanged } from 'firebase/auth';
+import { BehaviorSubject, Observable, from, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from './firebase.utils';
+import { switchMap, first, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class AuthService {
   private auth: Auth = auth;
   private firestore = firestore;
   private userSubject = new BehaviorSubject<User | null>(null);
+  private authStateReady = new BehaviorSubject<boolean>(false);
   diceBearBaseUrl = 'https://api.dicebear.com/9.x/fun-emoji/svg?seed=';
 
   constructor(private http: HttpClient) {
@@ -19,10 +21,22 @@ export class AuthService {
   }
 
   private initializeUser() {
+    from(new Promise<User | null>((resolve) => {
+      const unsubscribe = onAuthStateChanged(this.auth, (user) => {
+        unsubscribe();  
+        resolve(user);
+      });
+    })).subscribe(user => {
+      this.userSubject.next(user);
+      this.authStateReady.next(true);
+      if (user) {
+        this.ensureUserInFirestore(user);
+      }
+    });
+
     this.auth.onAuthStateChanged((user) => {
       this.userSubject.next(user);
       
-      // If a user is logged in, ensure their profile data is in Firestore
       if (user) {
         this.ensureUserInFirestore(user);
       }
@@ -35,7 +49,6 @@ export class AuthService {
       const userDoc = await getDoc(userDocRef);
       
       if (!userDoc.exists()) {
-        // User document doesn't exist in Firestore, create it
         const names = user.displayName ? user.displayName.split(' ') : ['User', ''];
         await setDoc(userDocRef, {
           firstName: names[0],
@@ -55,6 +68,13 @@ export class AuthService {
     return this.userSubject.asObservable();
   }
 
+  getCurrentUser(): Observable<User | null> {
+    return this.authStateReady.pipe(
+      first(isReady => isReady),
+      switchMap(() => of(this.auth.currentUser))
+    );
+  }
+
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
@@ -70,7 +90,6 @@ export class AuthService {
             displayName: `${firstName} ${lastName}`,
             photoURL: avatarUrl
           }).then(() => {
-            // Also save user data to Firestore
             const userDocRef = doc(this.firestore, 'users', user.uid);
             setDoc(userDocRef, {
               firstName: firstName,

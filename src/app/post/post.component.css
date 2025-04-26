@@ -1,4 +1,3 @@
-/* Card base styling */
 .card {
   border: none;
   border-radius: 12px;
@@ -109,7 +108,7 @@ i.fas {
   color: #4e73df;
 }
 
-/* Prevent HTML content from breaking layout */
+
 .content-preview ::ng-deep img,
 .content-preview ::ng-deep iframe {
   display: none;
@@ -157,7 +156,7 @@ i.fas {
   flex: 1;
 }
 
-/* Twitter-style layout */
+
 .tweet-layout {
   display: flex;
   gap: 12px;
@@ -169,10 +168,10 @@ i.fas {
 
 .content-column {
   flex: 1;
-  min-width: 0; /* Prevent content overflow */
+  min-width: 0; 
 }
 
-/* Tweet header styling */
+
 .tweet-header {
   display: flex;
   align-items: center;
@@ -197,7 +196,7 @@ i.fas {
   font-weight: 400;
 }
 
-/* Tweet content styling */
+
 .tweet-title {
   font-weight: 700;
   font-size: 16px;
@@ -215,7 +214,7 @@ i.fas {
   word-break: break-word;
 }
 
-/* Tweet actions styling */
+
 .tweet-actions {
   display: flex;
   margin-top: 18px;
@@ -229,7 +228,7 @@ i.fas {
   gap: 12px;
 }
 
-/* Redesigned action buttons */
+
 .action-button {
   display: flex;
   align-items: center;
@@ -251,7 +250,7 @@ i.fas {
   transition: transform 0.3s ease;
 }
 
-/* Post clickable area */
+
 .post-clickable-area {
   cursor: pointer;
   transition: all 0.2s;
@@ -268,7 +267,7 @@ i.fas {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Comments button styling */
+
 .comments-action {
   background: #f7f9fa;
   color: #536471;
@@ -299,7 +298,7 @@ i.fas {
   color: #1d9bf0;
 }
 
-/* Delete button styling */
+
 .delete-action {
   background-color: white;
   color: #f4212e;
@@ -333,7 +332,7 @@ i.fas {
   transition: all 0.3s ease;
 }
 
-/* Responsive styles */
+
 @media (max-width: 576px) {
   .writer-info {
     flex-direction: row;
@@ -405,7 +404,7 @@ i.fas {
     margin-right: 0;
   }
   
-  /* Hide text on small screens to save space */
+  
   .action-text {
     display: none;
   }
@@ -430,7 +429,7 @@ i.fas {
   }
 }
 
-/* Colored Border Effect */
+
 .colored-border {
   overflow: hidden;
 }

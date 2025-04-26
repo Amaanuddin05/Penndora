@@ -11,16 +11,13 @@ export interface GeminiResponse {
   providedIn: 'root'
 })
 export class AiAssistantService {
-  // Hard-code the URL directly to ensure it's correct
-  private apiUrl = 'https://penndora-backend.onrender.com/api/gemini';
+  private apiUrl = environment.geminiApiUrl;
 
   constructor(private http: HttpClient) {
-    console.log('Using API URL:', this.apiUrl);
+    // console.log('Using API URL:', this.apiUrl);
   }
 
-  /**
-   * Sends a prompt to the Gemini API and returns the response
-   */
+ 
   generateContent(prompt: string): Observable<GeminiResponse> {
     console.log('Sending request to Gemini API:', { prompt, url: this.apiUrl });
     return this.http.post<GeminiResponse>(this.apiUrl, { prompt })
@@ -33,17 +30,13 @@ export class AiAssistantService {
       );
   }
 
-  /**
-   * Generates title suggestions based on content
-   */
+ 
   generateTitleSuggestions(content: string): Observable<GeminiResponse> {
     const prompt = `Generate 5 short, engaging title suggestions for a blog post about the following content. Only include the titles, with no descriptions or explanations: "${content.substring(0, 500)}..."`;
     return this.generateContent(prompt);
   }
 
-  /**
-   * Generates content ideas related to a topic
-   */
+
   generateContentIdeas(topic: string): Observable<GeminiResponse> {
     const prompt = `Generate 5 engaging content ideas related to: "${topic}". 
 Format each idea as a numbered list with a bold title followed by bullet points that outline the flow of content.
@@ -61,9 +54,7 @@ Make each idea specific and actionable with a clear angle, not generic.`;
     return this.generateContent(prompt);
   }
 
-  /**
-   * Checks grammar and style in the provided content
-   */
+
   checkGrammarAndStyle(content: string): Observable<GeminiResponse> {
     const prompt = `Analyze the following text for grammar improvements only. Provide your response in the following structured format:
 
@@ -78,17 +69,12 @@ Text to analyze: "${content.substring(0, 1000)}..."`;
     return this.generateContent(prompt);
   }
 
-  /**
-   * Completes sentences or paragraphs based on provided content
-   */
+ 
   completeSentence(content: string): Observable<GeminiResponse> {
     const prompt = `Continue writing the following text with 2-3 additional sentences that naturally flow from it: "${content.substring(0, 500)}..."`;
     return this.generateContent(prompt);
   }
 
-  /**
-   * Provides chat-based assistance for writing and content creation
-   */
   chatWithAssistant(message: string): Observable<GeminiResponse> {
     const prompt = `You are a helpful writing assistant. Please respond to the following question or request about writing, content creation, or blogging: "${message}"
 
@@ -102,9 +88,7 @@ Format your response using:
     return this.generateContent(prompt);
   }
 
-  /**
-   * Generates a concise summary of the provided content
-   */
+
   summarizeContent(content: string): Observable<GeminiResponse> {
     const prompt = `Create a concise summary (3-5 sentences) of the following content, capturing the main points and key takeaways while maintaining the original tone: "${content.substring(0, 1000)}..."`;
     return this.generateContent(prompt);

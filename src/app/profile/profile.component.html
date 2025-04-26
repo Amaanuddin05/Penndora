@@ -1,12 +1,10 @@
 <div class="container">
-  <!-- Back button -->
   <div class="back-button mb-3">
     <a routerLink="/myblogs" class="back-link">
       <i class="fas fa-arrow-left"></i> Back to Feed
     </a>
   </div>
   
-  <!-- Loading spinner -->
   <div class="text-center my-5" *ngIf="isLoading">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -15,10 +13,8 @@
   </div>
   
   <div *ngIf="!isLoading">
-    <!-- Profile Card -->
     <div class="card">
       <div class="card-body position-relative">
-        <!-- Edit Profile Button - Only show for own profile -->
         <a *ngIf="isOwnProfile" routerLink="/edit-profile/{{user.id}}" class="edit-profile-btn">
           <i class="fas fa-pen"></i> <span class="btn-text">Edit Profile</span>
         </a>
@@ -29,14 +25,12 @@
         <hr/>
         
         <div class="row mt-4">
-          <!-- Profile Image -->
           <div class="col-md-3">
             <div class="profile-img-container">
               <img [src]="user.photoURL" class="profile-img" alt="User Profile Image">
             </div>
           </div>
           
-          <!-- User Information -->
           <div class="col-md-9">
             <h1 class="user-name">{{ user.firstName + ' ' + user.lastName }}</h1>
             <h4 class="user-email">{{ user.email }}</h4>
@@ -53,7 +47,6 @@
       </div>
     </div>
     
-    <!-- Posts Card -->
     <div class="card">
       <div class="card-body">
         <div class="card-title">

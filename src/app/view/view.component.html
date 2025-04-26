@@ -7,7 +7,6 @@
         </a>
       </div>
       
-      <!-- Loading spinner -->
       <div class="text-center my-5" *ngIf="isLoading">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -15,11 +14,8 @@
         <p class="loading-text">Loading post...</p>
       </div>
       
-      <!-- Post content when loaded -->
       <div *ngIf="!isLoading && post">
-        <!-- Post card with Twitter-style layout -->
         <div class="post-card">
-          <!-- Post header with author info -->
           <div class="post-header" *ngIf="author">
             <div class="author-photo">
               <img [src]="authorPhoto" alt="Author photo" class="avatar">
@@ -29,7 +25,6 @@
               <div class="post-date">{{ postDate }}</div>
             </div>
             
-            <!-- Summarize Button -->
             <div class="ms-auto">
               <button class="btn btn-outline-primary rounded-pill summarize-btn" (click)="summarizeContent()">
                 <i class="fas fa-robot me-1"></i> AI Summary
@@ -37,19 +32,16 @@
             </div>
           </div>
           
-          <!-- Post content -->
           <div class="post-body">
             <h1 class="post-title">{{ post.title }}</h1>
-            <div class="post-content" [innerHTML]="post.content"></div>
+            <div class="post-content" [innerHTML]="getSafeHTML(post.content)"></div>
           </div>
         </div>
         
-        <!-- Comments section -->
         <div class="comments-section mt-4">
           <app-comments [postId]="postId"></app-comments>
         </div>
         
-        <!-- Summary Modal -->
         <div class="summary-modal" *ngIf="showSummaryModal">
           <div class="summary-modal-content">
             <div class="summary-header">
@@ -63,7 +55,7 @@
                 </div>
                 <p class="mt-2 mb-0">Generating summary...</p>
               </div>
-              <div *ngIf="!isGeneratingSummary" [innerHTML]="summaryText"></div>
+              <div *ngIf="!isGeneratingSummary" [innerHTML]="getSafeHTML(summaryText)"></div>
             </div>
             <div class="summary-footer">
               <small class="text-muted">Generated using AI. Results may vary.</small>
@@ -72,7 +64,6 @@
         </div>
       </div>
       
-      <!-- Error message if post not found -->
       <div class="alert alert-warning text-center" *ngIf="!isLoading && !post">
         <i class="fas fa-exclamation-circle me-2"></i>
         Post not found or has been deleted.

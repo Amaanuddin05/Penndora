@@ -1,6 +1,5 @@
 <div class="container">
   <div class="row mt-3 mt-md-5">
-    <!-- Profile Column -->
     <div class="col-12 col-md-4 mb-3 mb-md-0" *ngIf="user">
       <div class="card">
         <div class="edit-button-container">
@@ -11,20 +10,17 @@
         <div id="pfp">
           <img class="profile-img" [src]="safePhotoURL" alt="Profile picture">
         </div>
-        <!-- <div class="profile-img" [innerHTML]="safePhotoURL"></div> -->
         <div class="card-body">
           <h4 class="card-title">{{ user.displayName }}</h4>
         </div>
       </div>
     </div>
 
-    <!-- Content Column - Contains only Create component -->
     <div class="col-12 col-md-8">
       <app-create (postCreated)="onPostCreated()"></app-create>
     </div>
   </div>
   
-  <!-- Posts section - Centered to whole page -->
   <div class="centered-posts-container">
     <app-post *ngFor="let post of posts" [post]="post" (onDelete)="onDelete()"></app-post>
   </div>

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 import { AiAssistantService } from '../services/ai-assistant.service';
 
 interface Post {
@@ -60,12 +60,10 @@ export class ViewComponent implements OnInit {
         this.post = post;
         
         if (post) {
-          // Format the post date
           if (post.created) {
             this.formatPostDate(post.created);
           }
           
-          // Fetch author information if owner is available
           if (post.owner) {
             this.fetchAuthorInfo(post.owner);
           } else {
@@ -81,15 +79,17 @@ export class ViewComponent implements OnInit {
     });
   }
   
-  /**
-   * Fetches the author information from Firestore
-   */
+  getSafeHTML(content: string): SafeHtml {
+    if (!content) return '';
+    return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+  
+  
   fetchAuthorInfo(ownerId: string) {
     this.firestore.collection('users').doc(ownerId).get().subscribe(doc => {
       if (doc.exists) {
         this.author = doc.data();
         
-        // Set author name from Firestore data
         if (this.author.displayName) {
           this.authorName = this.author.displayName;
         } else if (this.author.firstName && this.author.lastName) {
@@ -98,7 +98,6 @@ export class ViewComponent implements OnInit {
           this.authorName = this.author.firstName;
         }
         
-        // Set author photo from Firestore data
         if (this.author.photoURL) {
           this.authorPhoto = this.sanitizer.bypassSecurityTrustUrl(this.author.photoURL);
         }
@@ -111,9 +110,7 @@ export class ViewComponent implements OnInit {
     });
   }
   
-  /**
-   * Formats the post date to a readable format
-   */
+
   formatPostDate(timestamp: any) {
     if (!timestamp) return;
     
@@ -121,7 +118,6 @@ export class ViewComponent implements OnInit {
     const now = new Date();
     const diffMs = now.getTime() - postDate.getTime();
     
-    // Convert to seconds
     const diffSeconds = Math.floor(diffMs / 1000);
     
     if (diffSeconds < 60) {
@@ -148,9 +144,7 @@ export class ViewComponent implements OnInit {
     }
   }
   
-  /**
-   * Generates a summary of the post content
-   */
+
   summarizeContent() {
     if (!this.post?.content) return;
     
@@ -172,9 +166,7 @@ export class ViewComponent implements OnInit {
       });
   }
   
-  /**
-   * Closes the summary modal
-   */
+ 
   closeSummaryModal() {
     this.showSummaryModal = false;
   }

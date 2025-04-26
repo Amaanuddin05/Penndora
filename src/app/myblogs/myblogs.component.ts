@@ -21,9 +21,7 @@ export class MyblogsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private authService: AuthService
   ) {
-    // firebase.firestore().settings({
-    //   timestampsInSnapshots: true
-    // });
+    
     this.getPosts();
   }
 
@@ -34,11 +32,9 @@ export class MyblogsComponent implements OnInit {
         // console.log('User data in myblogs:', user);
         
         if (user.photoURL) {
-          // Handle both direct URLs and data URLs
           this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(user.photoURL);
           console.log('Photo URL set:', user.photoURL);
         } else {
-          // If no photoURL, check Firestore for the user's profile photo
           this.getUserFromFirestore(user.uid);
         }
         
@@ -75,13 +71,11 @@ export class MyblogsComponent implements OnInit {
   }
 
   onPostCreated(){
-    // refresh the list of posts
     this.posts = [];
     this.getPosts();
   }
 
   onDelete(){
-    // refresh the list of posts
     this.posts = [];
     this.getPosts();
   }

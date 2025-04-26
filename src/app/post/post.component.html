@@ -1,36 +1,29 @@
 <div class="card text-dark mt-3 colored-border" [ngStyle]="{'border-left': '4px solid ' + borderColor, '--border-color': borderColor}">
   <div class="card-body">
     <div class="tweet-layout">
-      <!-- Profile photo column -->
       <div class="profile-column">
         <a class="writer-photo" routerLink="/profile/{{postData.owner}}">
           <img [src]="writerPhoto" alt="Writer photo" class="writer-avatar">
         </a>
       </div>
       
-      <!-- Content column -->
       <div class="content-column">
-        <!-- Header row with name and date -->
         <div class="tweet-header">
           <a class="user-name" routerLink="/profile/{{postData.owner}}">{{ writerName }}</a>
           <span class="tweet-time">· {{ timeAgo }}</span>
         </div>
         
-        <!-- Clickable post content area -->
         <div class="post-clickable-area" [routerLink]="'/view/' + postData.id">
-          <!-- Post title as bold heading -->
           <div class="tweet-title">
             {{ postData.title }}
           </div>
           
-          <!-- Post content -->
           <div class="tweet-content">
-            <div class="content-preview" [innerHTML]="postData.content.substring(0, 180)"></div>
-            <span class="ellipsis" *ngIf="postData.content.length > 180">...</span>
+            <div class="content-preview" [innerHTML]="getSafePreview(postData.content, 180)"></div>
+            <span class="ellipsis" *ngIf="postData.content && postData.content.length > 180">...</span>
           </div>
         </div>
         
-        <!-- Actions row -->
         <div class="tweet-actions">
           <div class="action-buttons-group">
             <button class="action-button comments-action" [routerLink]="'/view/' + postData.id" title="View comments">

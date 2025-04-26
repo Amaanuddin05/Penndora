@@ -1,4 +1,3 @@
-/* Back link styling */
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -21,7 +20,7 @@
   font-size: 16px;
 }
 
-/* Post card styling */
+
 .post-card {
   background-color: white;
   border-radius: 16px;
@@ -31,7 +30,7 @@
   padding: 20px;
 }
 
-/* Author section styling */
+
 .post-header {
   display: flex;
   align-items: center;
@@ -72,7 +71,7 @@
   line-height: 1.3;
 }
 
-/* Post content styling */
+
 .post-title {
   font-size: 28px;
   font-weight: 800;
@@ -93,7 +92,7 @@
   overflow-wrap: break-word;
 }
 
-/* Make images responsive and center them */
+
 .post-content ::ng-deep img {
   max-width: 100% !important;
   height: auto !important;
@@ -103,13 +102,13 @@
   object-fit: contain;
 }
 
-/* Style for paragraphs */
+
 .post-content ::ng-deep p {
   margin-bottom: 16px;
   line-height: 1.6;
 }
 
-/* Style for headings */
+
 .post-content ::ng-deep h1,
 .post-content ::ng-deep h2,
 .post-content ::ng-deep h3 {
@@ -118,7 +117,7 @@
   font-weight: 700;
 }
 
-/* Style for links */
+
 .post-content ::ng-deep a {
   color: #1d9bf0;
   text-decoration: none;
@@ -128,7 +127,7 @@
   text-decoration: underline;
 }
 
-/* Comments section */
+
 .comments-section {
   background-color: white;
   border-radius: 16px;
@@ -136,7 +135,7 @@
   padding: 20px;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 576px) {
   .post-card {
     padding: 16px;
@@ -162,7 +161,7 @@
   }
 }
 
-/* Loading State */
+
 .spinner-border {
   color: #1d9bf0;
   width: 3rem;
@@ -175,7 +174,7 @@
   margin-top: 10px;
 }
 
-/* Alert when post not found */
+
 .alert-warning {
   background-color: #fff8e6;
   color: #9e6a03;
@@ -185,14 +184,14 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Summary Button */
+
 .summarize-btn {
   font-size: 14px;
   padding: 6px 12px;
   margin-left: auto;
 }
 
-/* Summary Modal */
+
 .summary-modal {
   position: fixed;
   top: 0;
@@ -264,7 +263,7 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Responsive Adjustments for Summary Modal */
+
 @media (max-width: 576px) {
   .summary-modal-content {
     width: 95%;
@@ -289,7 +288,7 @@
   }
 }
 
-/* Add space between author info and button on small screens */
+
 @media (max-width: 576px) {
   .post-header > div {
     margin-bottom: 10px;

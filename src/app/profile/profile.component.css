@@ -2,13 +2,13 @@
   border-radius: 128px;
 }
 
-/* Profile Container */
+
 .container {
   max-width: 1000px;
   margin: 20px auto;
 }
 
-/* Card Styling */
+
 .card {
   border-radius: 15px;
   border: none;
@@ -30,7 +30,7 @@
   font-size: 24px;
 }
 
-/* Profile Image */
+
 .profile-img-container {
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@
   margin-bottom: 15px;
 }
 
-/* User Info */
+
 .user-name {
   font-size: 28px;
   font-weight: 700;
@@ -78,7 +78,7 @@
   line-height: 1.4;
 }
 
-/* Hobby Tags */
+
 .hobby-tag {
   background-color: #1d9bf0;
   color: white;
@@ -90,7 +90,7 @@
   display: inline-block;
 }
 
-/* Edit Profile Button */
+
 .edit-profile-btn {
   position: absolute;
   top: 20px;
@@ -121,7 +121,7 @@
   margin-right: 6px;
 }
 
-/* Back Button */
+
 .back-button {
   margin-top: 15px;
 }
@@ -147,7 +147,7 @@
   margin-right: 8px;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 767px) {
   .profile-img {
     width: 120px;
@@ -184,7 +184,7 @@
   }
 }
 
-/* Loading State */
+
 .spinner-border {
   color: #1d9bf0;
   width: 3rem;

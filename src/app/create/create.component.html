@@ -3,7 +3,6 @@
     <h4 class="mb-0">Create New Post</h4>
   </div>
   <div class="card-body">
-    <!-- Success message alert -->
     <div class="alert alert-success alert-dismissible fade show mb-3" *ngIf="showSuccessMessage">
       <i class="fas fa-check-circle me-2"></i>{{ successMessage }}
       <button type="button" class="btn-close" (click)="showSuccessMessage = false"></button>
@@ -23,7 +22,6 @@
     </div>
 
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-      <!-- AI Assistant Button -->
       <button (click)="toggleAiAssistant()" class="btn btn-outline-primary rounded-pill w-100 w-sm-auto">
         <i class="fas fa-robot me-2"></i>AI Assistant
       </button>
@@ -33,7 +31,6 @@
       </button>
     </div>
     
-    <!-- AI Assistant Panel -->
     <div *ngIf="showAiAssistant" class="mt-4 ai-assistant-panel">
       <div class="card">
         <div class="card-header bg-light d-flex justify-content-between align-items-center">
@@ -43,7 +40,6 @@
           </button>
         </div>
         <div class="card-body">
-          <!-- Feature Selection Tabs -->
           <ul class="nav nav-tabs mb-3 flex-nowrap overflow-auto">
             <li class="nav-item">
               <a class="nav-link" [class.active]="assistantType === 'title'" (click)="selectAssistantFeature('title')" href="javascript:void(0)">
@@ -71,7 +67,6 @@
             </li>
           </ul>
           
-          <!-- Content Ideas UI -->
           <div *ngIf="assistantType === 'content'" class="mb-3">
             <label class="form-label">Enter a topic to get content ideas:</label>
             <div class="input-group mb-3">
@@ -83,7 +78,6 @@
             </div>
           </div>
           
-          <!-- Title Suggestions UI -->
           <div *ngIf="assistantType === 'title'" class="mb-3">
             <p>Generate engaging title suggestions based on your post content:</p>
             <button class="btn btn-primary w-100 w-sm-auto" (click)="generateTitleSuggestions()" [disabled]="isLoading">
@@ -92,7 +86,6 @@
             </button>
           </div>
           
-          <!-- Grammar & Style UI -->
           <div *ngIf="assistantType === 'grammar'" class="mb-3">
             <p>Check your post for grammar and spelling mistakes:</p>
             <button class="btn btn-primary w-100 w-sm-auto" (click)="checkGrammarAndStyle()" [disabled]="isLoading">
@@ -101,7 +94,6 @@
             </button>
           </div>
           
-          <!-- Chat Assistant UI -->
           <div *ngIf="assistantType === 'chat'" class="mb-3">
             <div class="chat-container rounded border mb-3" id="chatContainer">
               <div class="chat-messages p-3">
@@ -143,10 +135,8 @@
             </div>
           </div>
           
-          <!-- Response Area for Grammar -->
           <div *ngIf="assistantResponse && assistantType === 'grammar'" class="mt-3 p-3 bg-light rounded assistant-response">
             <div *ngIf="parseGrammarAndStyle(assistantResponse) as analysis">
-              <!-- Grammar Issues -->
               <div class="mb-4" *ngIf="analysis.grammarIssues.length > 0">
                 <h6 class="mb-2">Grammar Issues:</h6>
                 <div class="list-group">
@@ -159,7 +149,6 @@
                 </div>
               </div>
               
-              <!-- Improved Version -->
               <div class="mb-3" *ngIf="analysis.improvedVersion">
                 <h6 class="mb-2">Corrected Text:</h6>
                 <div class="card">
@@ -174,7 +163,6 @@
             </div>
           </div>
           
-          <!-- Title Suggestions Response Area -->
           <div *ngIf="assistantResponse && assistantType === 'title'" class="mt-3 p-3 bg-light rounded assistant-response">
             <h6>Title Suggestions:</h6>
             <div class="title-suggestions">
@@ -186,7 +174,6 @@
             </div>
           </div>
           
-          <!-- Content Ideas Response Area -->
           <div *ngIf="assistantResponse && assistantType === 'content'" class="mt-3 p-3 bg-light rounded assistant-response">
             <h6>Content Ideas:</h6>
             <div class="content-ideas">
@@ -215,13 +202,11 @@
   </div>
 </div>
 
-<!-- Floating Chat Button -->
 <div class="floating-chat-button" [class.open]="showFloatingChat" *ngIf="!showAiAssistant">
   <button class="btn btn-primary rounded-circle chat-toggle-btn" (click)="toggleFloatingChat()">
     <i class="fas" [class.fa-times]="showFloatingChat" [class.fa-comments]="!showFloatingChat"></i>
   </button>
   
-  <!-- Popup Chat -->
   <div class="floating-chat-popup" *ngIf="showFloatingChat">
     <div class="floating-chat-header">
       <h6 class="mb-0">AI Writing Assistant</h6>

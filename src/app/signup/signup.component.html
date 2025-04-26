@@ -1,11 +1,9 @@
 <div class="row background">
   <div class="col-sm-6 background-left p-5 pb-5 d-none d-sm-block">
-    <!-- Display background image only on screens larger than sm -->
     <h1>Don't just think! Blog It!</h1>
   </div>
 
   <div class="col-sm-6 background-right p-3">
-    <!-- Adjust padding for smaller screens -->
     <div class="card text-blank border-0">
       <div class="card-body">
         <div class="card-title text-center">
@@ -30,9 +28,7 @@
 
             <div class="mb-3">
               <input type="email" placeholder="Enter your email" class="form-control" formControlName="email">
-              <!-- <small class="form-text text-muted">
-                We'll never share your email with anyone else
-              </small> -->
+   
               <div class="alert alert-danger" *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">
                 A valid email is required
               </div>

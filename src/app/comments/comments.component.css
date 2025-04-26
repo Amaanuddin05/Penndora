@@ -1,4 +1,4 @@
-/* Comments container */
+
 .comments-container {
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   color: #0f1419;
 }
 
-/* Comment form */
+
 .comment-form {
   margin-bottom: 24px;
   display: flex;
@@ -65,7 +65,6 @@
   cursor: not-allowed;
 }
 
-/* Login prompt */
 .login-prompt {
   background-color: #f7f9f9;
   border-radius: 12px;
@@ -92,7 +91,6 @@
   background-color: #1a8cd8;
 }
 
-/* Comments counter */
 .comments-counter {
   font-size: 15px;
   font-weight: 600;
@@ -102,7 +100,6 @@
   border-bottom: 1px solid #eff3f4;
 }
 
-/* Comments list */
 .comments-list {
   display: flex;
   flex-direction: column;
@@ -143,7 +140,7 @@
   word-wrap: break-word;
 }
 
-/* No comments message */
+
 .no-comments {
   padding: 20px 0;
   color: #536471;
@@ -151,7 +148,6 @@
   font-size: 15px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 576px) {
   .comment-input {
     padding: 10px 14px;
@@ -167,7 +163,6 @@
   }
 }
 
-/* Loading State */
 .spinner-border {
   color: #1d9bf0;
 }
@@ -177,7 +172,6 @@
   font-size: 14px;
 }
 
-/* Section Title */
 .section-title {
   font-size: 20px;
   font-weight: 700;
@@ -185,7 +179,6 @@
   margin-bottom: 20px;
 }
 
-/* Login message */
 .login-message {
   background-color: #f7f9fa;
   border-radius: 12px;
@@ -204,7 +197,7 @@
   text-decoration: underline;
 }
 
-/* Comment */
+
 .comment {
   padding: 15px 0;
   border-bottom: 1px solid #e1e8ed;
@@ -228,4 +221,43 @@
   color: #0f1419;
   line-height: 1.5;
   white-space: pre-wrap;
+}
+
+
+.comment-header {
+  display: flex;
+  align-items: center;
+}
+
+.comment-author {
+  margin-right: 5px;
+}
+
+.comment-date {
+  flex-grow: 1;
+}
+
+.comment-actions {
+  margin-left: auto;
+}
+
+.delete-comment-button {
+  background: none;
+  border: none;
+  color: #f4212e;
+  cursor: pointer;
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.delete-comment-button:hover {
+  opacity: 1;
+  background-color: rgba(244, 33, 46, 0.1);
+}
+
+.delete-comment-button i {
+  font-size: 14px;
 }

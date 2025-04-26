@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxEditorModule } from 'ngx-editor';
-// Import the Firebase utils
 import { firebaseApp } from './firebase.utils';
 import firebase from './firebase.utils';
 
@@ -57,8 +56,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AngularFirestoreModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],

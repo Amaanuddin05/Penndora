@@ -5,14 +5,12 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { serverTimestamp } from '@angular/fire/firestore'; // ✅ Use the modular serverTimestamp
 import { AiAssistantService } from '../services/ai-assistant.service';
 
-// Interface for content idea structure
 interface ContentIdea {
   title: string;
   description: string;
   fullText: string;
 }
 
-// Interface for grammar and style analysis
 interface GrammarStyleAnalysis {
   grammarIssues: {
     original: string;
@@ -22,7 +20,6 @@ interface GrammarStyleAnalysis {
   improvedVersion: string;
 }
 
-// Interface for chat messages
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
@@ -39,21 +36,17 @@ export class CreateComponent implements OnInit, OnDestroy {
   content: string = '';
   html = '';
   
-  // AI assistant state
   showAiAssistant: boolean = false;
   assistantType: string = '';
   assistantPrompt: string = '';
   assistantResponse: string = '';
   isLoading: boolean = false;
   
-  // Chat messages
   chatMessages: ChatMessage[] = [];
   chatInput: string = '';
   
-  // Floating chat
   showFloatingChat: boolean = false;
 
-  // Success message
   successMessage: string = '';
   showSuccessMessage: boolean = false;
 
@@ -63,7 +56,7 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   constructor(
     private firestore: AngularFirestore,
-    private afAuth: AngularFireAuth, // ✅ Inject AngularFireAuth
+    private afAuth: AngularFireAuth, 
     private aiAssistantService: AiAssistantService
   ) {}
 
@@ -79,7 +72,24 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   createPost() {
     console.log('Title:', this.title);
-    console.log('Content:', this.html);
+    console.log('Raw Content:', this.html);
+    
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = this.html;
+    
+    const contentToSave = {
+      title: this.title,
+      content: this.html,
+      contentStructure: {
+        numberOfParagraphs: tempElement.querySelectorAll('p').length,
+        numberOfHeadings: tempElement.querySelectorAll('h1, h2, h3, h4, h5, h6').length,
+        numberOfLists: tempElement.querySelectorAll('ul, ol').length,
+        hasFormattedText: Boolean(tempElement.querySelector('strong, em, u, s, span[style]')),
+        hasColoredText: Boolean(tempElement.querySelector('[style*="color"]')),
+      }
+    };
+    
+    console.log('Post content details:', contentToSave);
 
     if (!this.title || !this.html) {
       console.error('Content or Title is not defined or invalid.');
@@ -95,23 +105,22 @@ export class CreateComponent implements OnInit, OnDestroy {
       const post = {
         title: this.title,
         content: this.html,
-        owner: user.uid, // ✅ Safe UID access
-        created: serverTimestamp() // ✅ Correct timestamp usage
+        owner: user.uid, 
+        created: serverTimestamp() 
       };
+      
+      console.log('Final post object being sent to database:', post);
 
       this.firestore.collection('posts').add(post)
         .then(() => {
           console.log('Post created successfully!');
           
-          // Show success message
           this.successMessage = 'Post created successfully!';
           this.showSuccessMessage = true;
           
-          // Clear form fields
           this.title = '';
           this.html = '';
           
-          // Hide success message after 3 seconds
           setTimeout(() => {
             this.showSuccessMessage = false;
           }, 3000);
@@ -124,11 +133,9 @@ export class CreateComponent implements OnInit, OnDestroy {
     });
   }
 
-  // AI Assistant methods
   toggleAiAssistant() {
     this.showAiAssistant = !this.showAiAssistant;
     
-    // Close floating chat if AI Assistant panel is opened
     if (this.showAiAssistant && this.showFloatingChat) {
       this.showFloatingChat = false;
     }
@@ -143,7 +150,6 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.assistantPrompt = '';
     this.assistantResponse = '';
     
-    // Initialize chat if selected
     if (feature === 'chat' && this.chatMessages.length === 0) {
       this.chatMessages = [{
         role: 'assistant',
@@ -237,10 +243,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * Parse title suggestions from the AI response text
-   * Handles different formats including numbered lists and markdown
-   */
+ 
   parseTitleSuggestions(response: string): string[] {
     if (!response) return [];
     
@@ -267,10 +270,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     return titles;
   }
 
-  /**
-   * Parse content ideas from the AI response
-   * Extracts title and description from each idea
-   */
+ 
   parseContentIdeas(response: string): ContentIdea[] {
     if (!response) return [];
     

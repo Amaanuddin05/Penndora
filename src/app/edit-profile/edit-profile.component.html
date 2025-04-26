@@ -1,12 +1,10 @@
 <div class="container">
-  <!-- Back button -->
   <div class="back-button mb-3">
     <a routerLink="/myblogs" class="back-link">
       <i class="fas fa-arrow-left"></i> Back to Feed
     </a>
   </div>
   
-  <!-- Loading spinner -->
   <div class="text-center my-5" *ngIf="isLoading">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -16,7 +14,6 @@
   
   <div class="row" *ngIf="!isLoading">
     <div class="col-12">
-      <!-- Profile Card -->
       <div class="card">
         <div class="card-body">
           <div class="card-title">
@@ -24,15 +21,12 @@
           </div>
           <div class="card-text">
             <div class="row">
-              <!-- Profile Photo -->
               <div class="col-md-4">
                 <div class="profile-img-container">
                   <img [src]="user.photoURL" class="profile-img" alt="User Photo">
-                  <!-- Future enhancement: Add photo upload button -->
                 </div>
               </div>
               
-              <!-- Personal Info -->
               <div class="col-md-8">
                 <div class="mb-4">
                   <label for="displayName" class="form-label">Full Name</label>
@@ -55,7 +49,6 @@
         </div>
       </div>
       
-      <!-- Interests & Hobbies Card -->
       <div class="card">
         <div class="card-body">
           <div class="row">
@@ -74,7 +67,6 @@
             </div>
           </div>
           
-          <!-- Bottom of second card -->
           <div class="text-center">
             <button class="update-btn" (click)="update()" [disabled]="isUpdating">
               <span *ngIf="isUpdating">

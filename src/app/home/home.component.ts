@@ -12,7 +12,6 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   
   ngOnInit() {
-    // Check if user is logged in and redirect to myblogs if they are
     this.authService.user$.subscribe(user => {
       if (user) {
         this.router.navigate(['/myblogs']);

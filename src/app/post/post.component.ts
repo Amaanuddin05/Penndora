@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser';
 import { AuthService } from '../auth.service';
 import firebase from '../firebase.utils';
 
@@ -49,36 +49,62 @@ export class PostComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.postData = { ...this.post }; // Make a copy to avoid reference issues
-    this.postData.id = this.post.id || this.postData.id; // ✅ Ensure postData.id exists
+    this.postData = { ...this.post }; 
+    this.postData.id = this.post.id || this.postData.id; 
     // console.log(this.postData);
     
-    // Generate border color based on user ID
+
     if (this.postData.owner) {
       this.borderColor = this.generateColorFromUserId(this.postData.owner);
     }
     
-    // Calculate time ago string
     if (this.postData.created) {
       this.calculateTimeAgo();
     }
     
-    // Get current user
     this.user = await this.auth.currentUser;
     
-    // Use authService to get the current user's data for posts created by the current user
     this.authService.user$.subscribe(currentUser => {
       if (currentUser && this.postData.owner === currentUser.uid) {
-        // This is the current user's post, use their photo
         this.writerName = currentUser.displayName || 'You';
         if (currentUser.photoURL) {
           this.writerPhoto = this.sanitizer.bypassSecurityTrustUrl(currentUser.photoURL);
         }
       } else if (this.postData.owner) {
-        // This is someone else's post
         this.fetchWriterProfile(this.postData.owner);
       }
     });
+  }
+
+  getSafeHTML(content: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+
+  getSafePreview(content: string, maxLength: number): SafeHtml {
+    if (!content) return '';
+    
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    
+    const textContent = tempDiv.textContent || '';
+    
+    if (textContent.length <= maxLength) {
+      return this.sanitizer.bypassSecurityTrustHtml(content);
+    }
+    
+    let preview = content;
+    if (content.length > maxLength) {
+      preview = content.substring(0, maxLength);
+      
+      const lastLtIndex = preview.lastIndexOf('<');
+      const lastGtIndex = preview.lastIndexOf('>');
+      
+      if (lastLtIndex > lastGtIndex) {
+        preview = preview.substring(0, lastLtIndex);
+      }
+    }
+    
+    return this.sanitizer.bypassSecurityTrustHtml(preview);
   }
 
   fetchWriterProfile(ownerId: string) {
@@ -86,7 +112,6 @@ export class PostComponent implements OnInit {
       if (doc.exists) {
         const userData = doc.data() as { displayName?: string; photoURL?: string; firstName?: string; lastName?: string };
         
-        // Try different name fields that might exist
         if (userData.displayName) {
           this.writerName = userData.displayName;
         } else if (userData.firstName && userData.lastName) {
@@ -139,7 +164,6 @@ export class PostComponent implements OnInit {
     });
   }
 
-  // Generate a consistent color based on user ID
   generateColorFromUserId(userId: string): string {
     if (!userId) return this.colorPalette[0];
     

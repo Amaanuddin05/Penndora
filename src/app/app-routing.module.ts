@@ -12,7 +12,7 @@ import { authGuard, redirectIfLoggedIn } from './auth.guard';
 const routes: Routes = [{
   path: '' , redirectTo: 'home', pathMatch: 'full'
 },{
-  path: 'home' , component: HomeComponent, canActivate: [redirectIfLoggedIn]
+  path: 'home' , component: HomeComponent
 },{
   path: 'login', component: LoginComponent, canActivate: [redirectIfLoggedIn]
 },{

@@ -21,13 +21,11 @@ export class ProfileComponent implements OnInit {
   async ngOnInit() {
     this.isLoading = true;
     
-    // Get current user
     this.currentUserId = auth.currentUser?.uid || null;
     
     this.activatedRoute.params.subscribe(async (routeParams: { [key: string]: any }) => {
       const profileId = routeParams['id'];
       
-      // Check if this is the current user's profile
       this.isOwnProfile = this.currentUserId === profileId;
       
       try {

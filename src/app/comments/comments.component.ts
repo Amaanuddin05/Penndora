@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Firestore, collection, addDoc, query, where, orderBy, getDocs, serverTimestamp } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, orderBy, getDocs, serverTimestamp, doc, deleteDoc } from '@angular/fire/firestore';
 import { docData } from 'rxfire/firestore';
 import { auth } from '../firebase.utils';
 
@@ -23,6 +23,7 @@ export class CommentsComponent implements OnInit {
   constructor(private authFire: AngularFireAuth, private firestore: Firestore) {
     this.authFire.onAuthStateChanged((user) => {
       this.loggedIn = !!user;
+      this.user = user;
     });
   }
 
@@ -37,8 +38,8 @@ export class CommentsComponent implements OnInit {
   }
 
   async postComment() {
-    if (this.comment.length < 5) {
-      console.warn("Comment is too short");
+    if (!this.comment.trim()) {
+      console.warn("Comment cannot be empty");
       return;
     }
 
@@ -101,9 +102,24 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  /**
-   * Formats a comment timestamp to a readable format
-   */
+
+  async deleteComment(commentId: string) {
+    try {
+      const commentDocRef = doc(this.firestore, 'comments', commentId);
+      await deleteDoc(commentDocRef);
+      console.log('Comment deleted successfully');
+      this.getComments();
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  }
+
+ 
+  isCommentOwner(commentOwnerId: string): boolean {
+    return this.user && this.user.uid === commentOwnerId;
+  }
+
+
   formatCommentDate(timestamp: any): string {
     if (!timestamp || !timestamp.toDate) {
       return '';
@@ -113,25 +129,20 @@ export class CommentsComponent implements OnInit {
     const now = new Date();
     const diffMs = now.getTime() - commentDate.getTime();
     
-    // Convert to seconds
     const diffSeconds = Math.floor(diffMs / 1000);
     
     if (diffSeconds < 60) {
       return `${diffSeconds}s ago`;
     } else if (diffSeconds < 3600) {
-      // Minutes
       const minutes = Math.floor(diffSeconds / 60);
       return `${minutes}m ago`;
     } else if (diffSeconds < 86400) {
-      // Hours
       const hours = Math.floor(diffSeconds / 3600);
       return `${hours}h ago`;
     } else if (diffSeconds < 604800) {
-      // Days
       const days = Math.floor(diffSeconds / 86400);
       return `${days}d ago`;
     } else {
-      // More than a week, show the full date
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const month = monthNames[commentDate.getMonth()];
       const day = commentDate.getDate();

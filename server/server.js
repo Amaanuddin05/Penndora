@@ -1,4 +1,3 @@
-// import dotenv from 'dotenv';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
@@ -9,7 +8,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -17,25 +15,21 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Log all requests
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
   next();
 });
 
-// Health check endpoint
 app.get('/', (req, res) => {
   console.log('Health check endpoint accessed');
   res.status(200).json({ status: 'Gemini API server is running' });
 });
 
-// Test endpoint to verify API is working
 app.get('/api/test', (req, res) => {
   console.log('Test endpoint accessed');
   res.status(200).json({ message: 'API is working correctly' });
 });
 
-// Gemini API endpoint
 app.post('/api/gemini', async (req, res) => {
   console.log('Gemini API endpoint accessed with body:', req.body);
   try {
@@ -94,13 +88,11 @@ app.post('/api/gemini', async (req, res) => {
   }
 });
 
-// Handle 404 errors
 app.use((req, res) => {
   console.log(`404 - Route not found: ${req.originalUrl}`);
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Visit http://localhost:${PORT} for the health check endpoint`);
