@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,6 +28,7 @@ import { PostComponent } from './post/post.component';
 import { ViewComponent } from './view/view.component';
 import { CommentsComponent } from './comments/comments.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,12 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     NgxEditorModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
