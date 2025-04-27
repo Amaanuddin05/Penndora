@@ -1,6 +1,8 @@
+
 # ✍️ Penndora
 
-Penndora is a web application designed to provide a platform for creative expression and community engagement. Built with Angular, Node.js, and Firebase, it allows users to register, create personalized profiles, post multimedia content, and engage in meaningful discussions through comments — all within a smooth Single Page Application (SPA) experience.
+Penndora is a web application designed to provide a platform for creative expression and community engagement. Built with Angular, Node.js, and Firebase, it allows users to register, create personalized profiles, post multimedia content, and engage in meaningful discussions through comments — all within a smooth Single Page Application (SPA) experience.  
+Now enhanced with AI-driven features to boost creativity, productivity, and engagement.
 
 🔗 **Live Demo**: [https://penndora-6b0ec.web.app/](https://penndora-6b0ec.web.app/)
 
@@ -18,7 +20,7 @@ Penndora is a web application designed to provide a platform for creative expres
 - [🏗️ Code Scaffolding](#️-code-scaffolding)
 - [📦 Build](#-build)
 - [✅ Running Tests](#-running-tests)
-- [🛠️ Tech Stack](#️-tech-stack)
+- [🛠️ Tech Stack](#-tech-stack)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
@@ -32,6 +34,11 @@ Penndora is a web application designed to provide a platform for creative expres
 - **Real-Time Commenting**: Engage in discussions with live comment updates.
 - **Responsive Design**: Fully optimized for desktop, tablet, and mobile devices.
 - **Progressive Web App**: Installable on devices with offline capabilities.
+- **🧠 AI Title Suggestions**: Instantly generate engaging and SEO-friendly post titles.
+- **💡 AI Content Ideas**: Get smart prompts and topic suggestions to spark your creativity.
+- **✍️ Grammar Checker**: Enhance your writing with AI-powered grammar and style corrections.
+- **🤖 AI Chatbot Assistant**: Get real-time writing advice, idea generation, and answers via chatbot.
+- **📝 AI Content Summarization**: Summarize long articles or discussions into key points effortlessly.
 
 ---
 
@@ -81,7 +88,7 @@ This project uses Firebase for authentication, database, and hosting. For securi
 
 To set up Firebase for this project:
 
-1. Create a file named `firebase.environment.ts` in the `src/environments/` directory
+1. Create a file named `firebase.environment.ts` in the `src/environments/` directory.
 2. Add your Firebase configuration:
 
 ```typescript
@@ -103,6 +110,7 @@ export const firebaseConfig = {
 The project uses environment files for configuration. For security, these files are not included in the repository. You'll need to create them:
 
 1. Create `src/environments/environment.ts` for development:
+
 ```typescript
 export const environment = {
   production: false,
@@ -111,6 +119,7 @@ export const environment = {
 ```
 
 2. Create `src/environments/environment.prod.ts` for production:
+
 ```typescript
 export const environment = {
   production: true,
@@ -118,7 +127,7 @@ export const environment = {
 };
 ```
 
-3. Create `src/environments/firebase.environment.ts` with your Firebase config (see above)
+3. Create `src/environments/firebase.environment.ts` with your Firebase config (see above).
 
 **Note:** All environment files are included in `.gitignore` to prevent exposing sensitive information.
 
@@ -186,6 +195,7 @@ ng e2e
 - **Hosting**: Firebase Hosting
 - **Version Control**: Git & GitHub
 - **PWA Support**: Web App Manifest, Service Workers
+- **AI Integrations**: Gemini API for intelligent content features
 
 ---
 
@@ -215,9 +225,9 @@ Contributions are welcome! Please follow these steps:
 5. Open a pull request.
 
 **Important**: When contributing, make sure to:
-- Never commit environment files with real credentials
-- Use the example environment files as templates
-- Update documentation if you add new features
+- Never commit environment files with real credentials.
+- Use the example environment files as templates.
+- Update documentation if you add new features.
 
 ---
 
