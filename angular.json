@@ -37,7 +37,13 @@
                 "input": "public",
                 "output": "/"
               },
-              "src/assets/manifest.webmanifest"
+              "src/assets/manifest.webmanifest",
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src/assets",
+                "output": "/"
+              },
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "node_modules/font-awesome/css/font-awesome.min.css",

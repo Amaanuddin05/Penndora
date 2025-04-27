@@ -21,24 +21,28 @@ export class MyblogsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private authService: AuthService
   ) {
-    
-    this.getPosts();
+    // Remove getPosts from constructor - will call after auth is confirmed
   }
 
   ngOnInit() {
-    this.authService.user$.subscribe((user) => {
-      if (user) {
-        this.user = user;
-        // console.log('User data in myblogs:', user);
-        
-        if (user.photoURL) {
-          this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(user.photoURL);
-          console.log('Photo URL set:', user.photoURL);
-        } else {
-          this.getUserFromFirestore(user.uid);
-        }
-        
-        this.getPosts();
+    // Wait for auth state to be fully initialized before fetching posts
+    this.auth.authState.subscribe((authUser) => {
+      if (authUser) {
+        this.authService.user$.subscribe((user) => {
+          if (user) {
+            this.user = user;
+            
+            if (user.photoURL) {
+              this.safePhotoURL = this.sanitizer.bypassSecurityTrustUrl(user.photoURL);
+              console.log('Photo URL set:', user.photoURL);
+            } else {
+              this.getUserFromFirestore(user.uid);
+            }
+            
+            // Only fetch posts when we have a confirmed authenticated user
+            this.getPosts();
+          }
+        });
       }
     });
   }
