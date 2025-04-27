@@ -45,7 +45,50 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+.firebase-debug.log
+.firebaserc
 
-# Firebase config file for security
+# Environment and configuration files
 src/environments/firebase.environment.ts
 src/environments/environment.prod.ts
+src/environments/environment.ts
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+*.log
+
+# Local development files
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Cache directories
+.cache/
+.npm/
+.yarn/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
