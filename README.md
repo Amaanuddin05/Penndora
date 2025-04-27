@@ -14,6 +14,7 @@ Penndora is a web application designed to provide a platform for creative expres
   - [🧪 Installation](#-installation)
   - [▶️ Development Server](#️-development-server)
   - [🔥 Firebase Configuration](#-firebase-configuration)
+  - [🌐 Environment Setup](#-environment-setup)
 - [🏗️ Code Scaffolding](#️-code-scaffolding)
 - [📦 Build](#-build)
 - [✅ Running Tests](#-running-tests)
@@ -30,6 +31,7 @@ Penndora is a web application designed to provide a platform for creative expres
 - **Content Posting**: Create and share posts that include text, images, videos, and more.
 - **Real-Time Commenting**: Engage in discussions with live comment updates.
 - **Responsive Design**: Fully optimized for desktop, tablet, and mobile devices.
+- **Progressive Web App**: Installable on devices with offline capabilities.
 
 ---
 
@@ -41,6 +43,7 @@ Ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v16+)
 - [Angular CLI](https://angular.io/cli) (v14+)
+- [Firebase CLI](https://firebase.google.com/docs/cli) (for deployment)
 
 ### 🧪 Installation
 
@@ -95,7 +98,29 @@ export const firebaseConfig = {
 
 3. Replace the placeholder values with your actual Firebase project credentials.
 
-**Note:** The `firebase.environment.ts` file is included in `.gitignore` to prevent exposing your Firebase credentials.
+### 🌐 Environment Setup
+
+The project uses environment files for configuration. For security, these files are not included in the repository. You'll need to create them:
+
+1. Create `src/environments/environment.ts` for development:
+```typescript
+export const environment = {
+  production: false,
+  geminiApiUrl: 'YOUR_API_URL'
+};
+```
+
+2. Create `src/environments/environment.prod.ts` for production:
+```typescript
+export const environment = {
+  production: true,
+  geminiApiUrl: 'YOUR_PRODUCTION_API_URL'
+};
+```
+
+3. Create `src/environments/firebase.environment.ts` with your Firebase config (see above)
+
+**Note:** All environment files are included in `.gitignore` to prevent exposing sensitive information.
 
 ---
 
@@ -117,13 +142,19 @@ ng generate directive|pipe|service|class|guard|interface|enum|module
 
 ## 📦 Build
 
-To build the project, run:
+To build the project for production, run:
 
 ```bash
-ng build
+ng build --configuration=production
 ```
 
 The build artifacts will be stored in the `dist/` directory.
+
+To deploy to Firebase:
+
+```bash
+firebase deploy
+```
 
 ---
 
@@ -154,6 +185,7 @@ ng e2e
 - **Authentication & Database**: Firebase Authentication, Firebase Realtime Database
 - **Hosting**: Firebase Hosting
 - **Version Control**: Git & GitHub
+- **PWA Support**: Web App Manifest, Service Workers
 
 ---
 
@@ -181,6 +213,11 @@ Contributions are welcome! Please follow these steps:
    ```
 
 5. Open a pull request.
+
+**Important**: When contributing, make sure to:
+- Never commit environment files with real credentials
+- Use the example environment files as templates
+- Update documentation if you add new features
 
 ---
 
