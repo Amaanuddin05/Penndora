@@ -48,7 +48,7 @@ app.post('/api/gemini', async (req, res) => {
     
     console.log('Sending request to Gemini API with prompt:', prompt.substring(0, 100) + '...');
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {
