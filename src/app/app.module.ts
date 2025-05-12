@@ -28,6 +28,7 @@ import { ViewComponent } from './view/view.component';
 import { CommentsComponent } from './comments/comments.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { LogoOverlayComponent } from './logo-overlay/logo-overlay.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     PostComponent,
     ViewComponent,
     CommentsComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    LogoOverlayComponent
   ],
   imports: [
     BrowserModule,

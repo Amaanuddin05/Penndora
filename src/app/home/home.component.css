@@ -24,4 +24,14 @@
     .col-md-8.text-start {
       padding-top: 3rem; 
     }
+    
+    .col-md-6 br {
+      display: none; 
+    }
+  }
+
+  @media (max-width: 767px) {
+    .col-md-6 h2.mx-5.my-5 {
+      margin-top: 0 !important; 
+    }
   }

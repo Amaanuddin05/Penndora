@@ -8,14 +8,21 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+  showLogoOverlay = true;
+  private userLoggedIn = false;
   
   constructor(private authService: AuthService, private router: Router) {}
   
   ngOnInit() {
     this.authService.user$.subscribe(user => {
-      if (user) {
-        this.router.navigate(['/myblogs']);
-      }
+      this.userLoggedIn = !!user;
     });
+  }
+
+  onOverlayDone() {
+    this.showLogoOverlay = false;
+    if (this.userLoggedIn) {
+      this.router.navigate(['/myblogs']);
+    }
   }
 }
