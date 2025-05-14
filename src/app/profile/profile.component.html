@@ -1,7 +1,7 @@
 <div class="container">
   <div class="back-button mb-3">
     <a routerLink="/myblogs" class="back-link">
-      <i class="fas fa-arrow-left"></i> Back to Feed
+      <em class="fas fa-arrow-left"></em> Back to Feed
     </a>
   </div>
   
@@ -16,7 +16,7 @@
     <div class="card">
       <div class="card-body position-relative">
         <a *ngIf="isOwnProfile" routerLink="/edit-profile/{{user.id}}" class="edit-profile-btn">
-          <i class="fas fa-pen"></i> <span class="btn-text">Edit Profile</span>
+          <em class="fas fa-pen"></em> <span class="btn-text">Edit Profile</span>
         </a>
         
         <div class="card-title text-center">

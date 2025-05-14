@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="alert alert-success alert-dismissible fade show mb-3" *ngIf="showSuccessMessage">
-      <i class="fas fa-check-circle me-2"></i>{{ successMessage }}
+      <em class="fas fa-check-circle me-2"></em>{{ successMessage }}
       <button type="button" class="btn-close" (click)="showSuccessMessage = false"></button>
     </div>
     
@@ -23,11 +23,11 @@
 
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
       <button (click)="toggleAiAssistant()" class="btn btn-outline-primary rounded-pill w-100 w-sm-auto">
-        <i class="fas fa-robot me-2"></i>AI Assistant
+        <em class="fas fa-robot me-2"></em>AI Assistant
       </button>
       
       <button (click)="createPost()" class="btn btn-warning rounded-pill w-100 w-sm-auto" [disabled]="!title || !html">
-        <i class="fas fa-paper-plane me-2"></i>Publish Post
+        <em class="fas fa-paper-plane me-2"></em>Publish Post
       </button>
     </div>
     
@@ -36,32 +36,32 @@
         <div class="card-header bg-light d-flex justify-content-between align-items-center">
           <h5 class="mb-0">AI Blog Assistant</h5>
           <button class="btn btn-sm btn-outline-secondary rounded-circle" (click)="toggleAiAssistant()">
-            <i class="fas fa-times"></i>
+            <em class="fas fa-times"></em>
           </button>
         </div>
         <div class="card-body">
           <ul class="nav nav-tabs mb-3 flex-nowrap overflow-auto">
             <li class="nav-item">
               <a class="nav-link" [class.active]="assistantType === 'title'" (click)="selectAssistantFeature('title')" href="javascript:void(0)">
-                <i class="fas fa-heading d-block d-sm-none"></i>
+                <em class="fas fa-heading d-block d-sm-none"></em>
                 <span class="d-none d-sm-inline">Title Suggestions</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" [class.active]="assistantType === 'content'" (click)="selectAssistantFeature('content')" href="javascript:void(0)">
-                <i class="fas fa-lightbulb d-block d-sm-none"></i>
+                <em class="fas fa-lightbulb d-block d-sm-none"></em>
                 <span class="d-none d-sm-inline">Content Ideas</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" [class.active]="assistantType === 'grammar'" (click)="selectAssistantFeature('grammar')" href="javascript:void(0)">
-                <i class="fas fa-spell-check d-block d-sm-none"></i>
+                <em class="fas fa-spell-check d-block d-sm-none"></em>
                 <span class="d-none d-sm-inline">Grammar Checker</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" [class.active]="assistantType === 'chat'" (click)="selectAssistantFeature('chat')" href="javascript:void(0)">
-                <i class="fas fa-comments d-block d-sm-none"></i>
+                <em class="fas fa-comments d-block d-sm-none"></em>
                 <span class="d-none d-sm-inline">Chat Assistant</span>
               </a>
             </li>
@@ -72,7 +72,7 @@
             <div class="input-group mb-3">
               <input type="text" class="form-control" [(ngModel)]="assistantPrompt" placeholder="e.g., sustainable living, digital marketing, etc.">
               <button class="btn btn-primary" type="button" (click)="generateContentIdeas()" [disabled]="isLoading">
-                <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-lightbulb]="!isLoading"></i>
+                <em class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-lightbulb]="!isLoading"></em>
                 <span class="d-none d-sm-inline ms-1">Generate</span>
               </button>
             </div>
@@ -81,7 +81,7 @@
           <div *ngIf="assistantType === 'title'" class="mb-3">
             <p>Generate engaging title suggestions based on your post content:</p>
             <button class="btn btn-primary w-100 w-sm-auto" (click)="generateTitleSuggestions()" [disabled]="isLoading">
-              <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-heading]="!isLoading"></i>
+              <em class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-heading]="!isLoading"></em>
               <span class="ms-2">Generate Title Suggestions</span>
             </button>
           </div>
@@ -89,7 +89,7 @@
           <div *ngIf="assistantType === 'grammar'" class="mb-3">
             <p>Check your post for grammar and spelling mistakes:</p>
             <button class="btn btn-primary w-100 w-sm-auto" (click)="checkGrammarAndStyle()" [disabled]="isLoading">
-              <i class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-spell-check]="!isLoading"></i>
+              <em class="fas" [class.fa-spinner]="isLoading" [class.fa-spin]="isLoading" [class.fa-spell-check]="!isLoading"></em>
               <span class="ms-2">Check Grammar & Spelling</span>
             </button>
           </div>
@@ -126,10 +126,10 @@
                       type="button" 
                       (click)="sendChatMessage()" 
                       [disabled]="isLoading || !chatInput.trim()">
-                <i class="fas" 
+                <em class="fas" 
                    [class.fa-spinner]="isLoading" 
                    [class.fa-spin]="isLoading" 
-                   [class.fa-paper-plane]="!isLoading"></i>
+                   [class.fa-paper-plane]="!isLoading"></em>
                 <span class="d-none d-sm-inline ms-1">Send</span>
               </button>
             </div>
@@ -155,7 +155,7 @@
                   <div class="card-body">
                     <p class="mb-2">{{ analysis.improvedVersion }}</p>
                     <button class="btn btn-success" (click)="applyImprovedVersion(analysis.improvedVersion)">
-                      <i class="fas fa-check-circle me-1"></i> Apply Corrected Text
+                      <em class="fas fa-check-circle me-1"></em> Apply Corrected Text
                     </button>
                   </div>
                 </div>
@@ -187,7 +187,7 @@
                         (click)="applyContentIdea(idea)" 
                         [attr.data-title]="idea.title"
                         [attr.data-description-length]="idea.description.length">
-                        <i class="fas fa-magic me-1"></i> 
+                        <em class="fas fa-magic me-1"></em> 
                         <span class="d-none d-sm-inline">Use This Idea</span>
                       </button>
                     </div>
@@ -204,14 +204,14 @@
 
 <div class="floating-chat-button" [class.open]="showFloatingChat" *ngIf="!showAiAssistant">
   <button class="btn btn-primary rounded-circle chat-toggle-btn" (click)="toggleFloatingChat()">
-    <i class="fas" [class.fa-times]="showFloatingChat" [class.fa-comments]="!showFloatingChat"></i>
+    <em class="fas" [class.fa-times]="showFloatingChat" [class.fa-comments]="!showFloatingChat"></em>
   </button>
   
   <div class="floating-chat-popup" *ngIf="showFloatingChat">
     <div class="floating-chat-header">
       <h6 class="mb-0">AI Writing Assistant</h6>
       <button class="btn btn-sm text-white" (click)="toggleFloatingChat()">
-        <i class="fas fa-times"></i>
+        <em class="fas fa-times"></em>
       </button>
     </div>
     
@@ -248,10 +248,10 @@
                 type="button" 
                 (click)="sendChatMessage()" 
                 [disabled]="isLoading || !chatInput.trim()">
-          <i class="fas" 
+          <em class="fas" 
              [class.fa-spinner]="isLoading" 
              [class.fa-spin]="isLoading" 
-             [class.fa-paper-plane]="!isLoading"></i>
+             [class.fa-paper-plane]="!isLoading"></em>
         </button>
       </div>
     </div>

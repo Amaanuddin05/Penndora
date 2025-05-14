@@ -27,13 +27,13 @@
         <div class="tweet-actions">
           <div class="action-buttons-group">
             <button class="action-button comments-action" [routerLink]="'/view/' + postData.id" title="View comments">
-              <i class="fas fa-comment"></i> <span class="action-text">Comments</span>
+              <em class="fas fa-comment"></em> <span class="action-text">Comments</span>
             </button>
             <button *ngIf="user && user.uid == postData.owner" 
                     class="action-button delete-action" 
                     (click)="delete()"
                     title="Delete this post">
-              <i class="fas fa-trash-alt"></i> <span class="action-text">Delete</span>
+              <em class="fas fa-trash-alt"></em> <span class="action-text">Delete</span>
             </button>
           </div>
         </div>

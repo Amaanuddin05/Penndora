@@ -1,35 +1,35 @@
 <div class="background">
   <div class="container">
     <div class="card">
-      <h2 class="card-title"><i class="fas fa-user-circle icon-title"></i> Login</h2>
+      <h2 class="card-title"><em class="fas fa-user-circle icon-title"></em> Login</h2>
       
       <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
         <div class="form-group">
           <div class="input-with-icon">
-            <i class="fas fa-envelope input-icon"></i>
+            <em class="fas fa-envelope input-icon"></em>
             <input type="email" formControlName="email" placeholder="Email" class="form-control">
           </div>
           <div class="error" *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">
-            <i class="fas fa-exclamation-circle"></i> A valid email is required
+            <em class="fas fa-exclamation-circle"></em> A valid email is required
           </div>
         </div>
         
         <div class="form-group">
           <div class="input-with-icon">
-            <i class="fas fa-lock input-icon"></i>
+            <em class="fas fa-lock input-icon"></em>
             <input type="password" formControlName="password" placeholder="Password" class="form-control">
           </div>
           <div class="error" *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">
-            <i class="fas fa-exclamation-circle"></i> Password is required
+            <em class="fas fa-exclamation-circle"></em> Password is required
           </div>
         </div>
         
         <button type="submit" class="btn-primary" [disabled]="!myForm.valid || isLoading">
           <ng-container *ngIf="!isLoading">
-            <i class="fas fa-sign-in-alt"></i> Sign In
+            <em class="fas fa-sign-in-alt"></em> Sign In
           </ng-container>
           <ng-container *ngIf="isLoading">
-            <i class="fas fa-spinner fa-spin"></i> Signing In...
+            <em class="fas fa-spinner fa-spin"></em> Signing In...
           </ng-container>
         </button>
       </form>
@@ -39,11 +39,11 @@
       </div>
       
       <div class="success" *ngIf="message.length > 0">
-        <i class="fas fa-check-circle"></i> You have been logged in successfully.
+        <em class="fas fa-check-circle"></em> You have been logged in successfully.
       </div>
       
       <div class="error-box" *ngIf="userError">
-        <i class="fas fa-exclamation-triangle"></i> {{ userError.message }}
+        <em class="fas fa-exclamation-triangle"></em> {{ userError.message }}
       </div>
     </div>
   </div>

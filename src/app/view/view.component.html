@@ -3,7 +3,7 @@
     <div class="col-lg-8 offset-lg-2">
       <div class="mb-3">
         <a routerLink="/myblogs" class="back-link">
-          <i class="fas fa-arrow-left"></i> Back to My Blogs
+          <em class="fas fa-arrow-left"></em> Back to My Blogs
         </a>
       </div>
       
@@ -27,7 +27,7 @@
             
             <div class="ms-auto">
               <button class="btn btn-outline-primary rounded-pill summarize-btn" (click)="summarizeContent()">
-                <i class="fas fa-robot me-1"></i> AI Summary
+                <em class="fas fa-robot me-1"></em> AI Summary
               </button>
             </div>
           </div>
@@ -65,7 +65,7 @@
       </div>
       
       <div class="alert alert-warning text-center" *ngIf="!isLoading && !post">
-        <i class="fas fa-exclamation-circle me-2"></i>
+        <em class="fas fa-exclamation-circle me-2"></em>
         Post not found or has been deleted.
       </div>
     </div>

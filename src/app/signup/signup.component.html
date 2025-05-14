@@ -38,7 +38,7 @@
               <div class="password-input-container">
                 <input [type]="showPassword ? 'text' : 'password'" class="form-control" placeholder="Password" formControlName="password">
                 <span class="password-toggle" (click)="togglePasswordVisibility()">
-                  <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  <em class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></em>
                 </span>
               </div>
               <div class="alert alert-danger" *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">
@@ -50,7 +50,7 @@
               <div class="password-input-container">
                 <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword">
                 <span class="password-toggle" (click)="toggleConfirmPasswordVisibility()">
-                  <i class="fas" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  <em class="fas" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></em>
                 </span>
               </div>
             </div>
@@ -61,7 +61,7 @@
                   Submit
                 </ng-container>
                 <ng-container *ngIf="isLoading">
-                  <i class="fas fa-spinner fa-spin"></i> Creating Account...
+                  <em class="fas fa-spinner fa-spin"></em> Creating Account...
                 </ng-container>
               </button>
             </div>
